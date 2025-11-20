@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Uploader une life list</title>
+</head>
+<body>
+  <h1>Uploader une life list eBird</h1>
+
+  {% if error %}
+    <p style="color:red">{{ error }}</p>
+  {% endif %}
+
+  {% if success %}
+    <p style="color:green">
+      Fichier bien reçu ✅ – une première analyse a été réalisée.
+      Ci-dessous, un aperçu des "blanks" prioritaires.
+    </p>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p><input type="file" name="life_list" accept=".csv"></p>
+    <button type="submit">Lancer l'analyse</button>
+  </form>
+
+{% if blanks_preview %}
+  <h2>Aperçu – Liste_blancks_world_classified (top 20)</h2>
+  <table border="1" cellpadding="4" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Espèce</th>
+        <th>Nb de pays</th>
+        <th>Pays &gt; seuil</th>
+        <th>% max</th>
+        <th>Pays % max</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in blanks_preview %}
+        <tr>
+          <td>{{ row.Species }}</td>
+          <td>{{ row.Country_Count }}</td>
+          <td>{{ row.Above_Threshold_Count }}</td>
+          <td>{{ row.Max_Percentage }}</td>
+          <td>{{ row.Max_Percentage_Country }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+</body>
+</html>

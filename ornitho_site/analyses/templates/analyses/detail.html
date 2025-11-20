@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Analyse #{{ analyse.id }}</title>
+  <style>
+    #map {
+        background: #e5e7eb; /* gris clair type eBird */
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      background: #f5f6f7;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 260px;
+      background: #22395c;
+      color: white;
+      height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    .sidebar h2 {
+      margin-top: 0;
+      font-size: 20px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #d2d8e5;
+      padding: 8px 0;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .sidebar a.active {
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .sidebar a:hover {
+      color: white;
+    }
+
+    /* MAIN CONTENT */
+    .content {
+      margin-left: 260px;
+      padding: 30px;
+      flex: 1;
+    }
+
+    table {
+      background: white;
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 40px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+    }
+
+    th {
+      background: #e8ecf1;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    /* SECTIONS (ONGLETS) */
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .section-header {
+      margin-bottom: 20px;
+    }
+
+    /* tri visuel */
+    th.sortable {
+      cursor: pointer;
+      position: relative;
+    }
+
+    th.sortable::after {
+      content: "⇅";
+      font-size: 10px;
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.4;
+    }
+
+    th.sortable.sorted-asc::after {
+      content: "↑";
+      opacity: 0.9;
+    }
+
+    th.sortable.sorted-desc::after {
+      content: "↓";
+      opacity: 0.9;
+    }
+
+    /* barres outils */
+    .toolbar {
+      margin-bottom: 15px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .toolbar input,
+    .toolbar select,
+    .toolbar button {
+      padding: 4px 8px;
+      font-size: 14px;
+    }
+
+  </style>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet/dist/leaflet.css"
+    />
+</head>
+<body>
+
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>Analyse #{{ analyse.id }}</h2>
+    <a data-section="blanks" class="tab-link active">Liste des blanks monde</a>
+    <a data-section="pays" class="tab-link">Statistiques par pays</a>
+    <a data-section="important" class="tab-link">Blanks importants par pays</a>
+    <a data-section="continents" class="tab-link">Nombre de blank par continent</a>
+    <a data-section="map" class="tab-link">Carte</a>
+  </div>
+
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+
+    <h1>Analyse #{{ analyse.id }}</h1>
+    <p>
+      Fichier : {{ analyse.life_list_file.name }}<br>
+      Créée le : {{ analyse.date_creation }}
+    </p>
+
+    <div class="toolbar">
+      <button id="reset-view">Réinitialiser la vue</button>
+    </div>
+
+    <hr>
+
+    <!-- SECTION 1 : BLANKS -->
+    <div id="section-blanks" class="section active">
+      <div class="section-header">
+        <h2>1. World blank list</h2>
+      </div>
+
+      <div class="toolbar">
+        <label for="search-blanks">Rechercher une espèce :</label>
+        <input type="text" id="search-blanks" placeholder="Tape un nom d'espèce...">
+
+        <span id="blanks-count-wrapper" style="margin-left: 16px;">
+            Nombre d'espèces affichées : <strong id="blanks-count">0</strong>
+        </span>
+      </div>
+      <div class="toolbar">
+        <label for="filter-blanks-country">Filtrer par pays (pour toutes espèces ayant une valeur  &gt; 0.0000009 , permettant d'éliminier toutes les espèces très occasionnelles) :</label>
+        <select id="filter-blanks-country">
+            <option value="">Aucun filtre</option>
+            {% for p in blanks_country_cols %}
+            <option value="{{ p }}">{{ p }}</option>
+            {% endfor %}
+        </select>
+        </div>
+      <table id="table-blanks">
+        <thead>
+            <tr>
+            <th class="sortable" data-table="table-blanks" data-index="0" data-type="number"
+                title="Rang de l'espèce en fonction du nombre de pays ou elle n'est pas exceptionnelle, puis du nombre de pays ou elle a déjà été observée, puis en fonction de son pourcentage maximum dans le pays ou elle est le plus representé" 
+                #>Rang</th>
+            <th class="sortable" data-table="table-blanks" data-index="1" data-type="text"
+                title="Nom de l'espèce (nom anglais extrait d'eBird)">Nom de l'espèce</th>
+            <th class="sortable" data-table="table-blanks" data-index="2" data-type="number"
+                title="Nombre de pays où l'espèce a été observé">Nb de pays</th>
+            <th class="sortable" data-table="table-blanks" data-index="3" data-type="number"
+                title="Nombre de pays ou l'espèce n'est pas exceptionelle dans un pays">Pays &gt; seuil</th>
+            <th class="sortable" data-table="table-blanks" data-index="4" data-type="number"
+                title="Il s'agit du pourcentage maximum de l'espèce dans le pays ou elle apparait le plus de fois dans les listes ebird. Plus le pourcentage est haut, plus l'espèce est aisé d'observation dans ce pays, et inversement">% max</th>
+            <th class="sortable" data-table="table-blanks" data-index="5" data-type="text"
+                title="Il s'agit du pays ou l'espèce est le plus représentée dans les listes ebird">Pays % max</th>
+            <th class="sortable" data-table="table-blanks" data-index="6" data-type="number"
+                title="Il s'agit des pourcentage d'apparition des espèces dans les listes ebird du pays séléctionné">Valeur pays sélectionné</th>
+            </tr>
+        </thead>
+        <tbody id="tbody-blanks">
+            <!-- rempli en JS -->
+        </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 2 : PAYS -->
+    <div id="section-pays" class="section">
+      <div class="section-header">
+        <h2>2. Statistiques par pays</h2>
+      </div>
+
+      <div class="toolbar">
+        <label for="filter-continent">Filtrer par continent :</label>
+        <select id="filter-continent">
+          <option value="">Tous</option>
+        </select>
+      </div>
+
+      <table id="table-pays">
+        <thead>
+          <tr>
+            <th class="sortable" data-table="table-blanks" data-index="0" data-type="number"
+                title="Rang du pays en fonction du nombre d'espèces observées" 
+                #>Rang</th>
+            <th data-table="table-pays" data-index="1" data-type="text">Pays</th>
+            <th data-table="table-pays" data-index="2" data-type="text">Continent</th>
+            <th class="sortable" data-table="table-pays" data-index="3" data-type="number"
+                title="Nombre d'espèces observées dans le pays">Total species</th>
+            <th class="sortable" data-table="table-pays" data-index="4" data-type="number"
+                title="Nombre d'espèce non occasionnelle dans le pays">Annual species</th>
+            <th class="sortable" data-table="table-pays" data-index="5" data-type="number"
+                title="Il s'agit du nombre d'espèce qui ont leur pourcentage maximum d'apparition danc ce pays">Max species count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in liste_pays %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ row.Country }}</td>
+              <td>{{ row.Continent }}</td>
+              <td>{{ row.Total_Species }}</td>
+              <td>{{ row.Species_Above_00009 }}</td>
+              <td>{{ row.Max_Species_Count }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 3 : BLANKS IMPORTANTS PAR PAYS -->
+     
+    <div id="section-important" class="section">
+      <div class="section-header">
+        <h2>3. Blanks importants par pays</h2>
+        <p>Liste des espèces ayant leur pourcentage maximum d'apparition dans les listes ebird par pays</p>
+      </div>
+
+      <div class="toolbar">
+        <label for="select-pays">Choisir un pays :</label>
+        <select id="select-pays">
+            {% for p in pays_list %}
+            <option value="{{ p }}">{{ p }}</option>
+            {% endfor %}
+        </select>
+
+        <span id="blancks-count-wrapper" style="margin-left: 16px;">
+            Nombre d'espèces importantes : <strong id="blancks-count">0</strong>
+        </span>
+      </div>
+
+      <table id="table-blancks-pays">
+        <thead>
+          <tr>
+            <th class="sortable"
+          data-table="table-blancks-pays"
+          data-index="0"
+          data-type="number"
+          title="Rang issu de la blank liste monde">Rang
+      </th>
+            <th data-table="table-blancks-pays" data-index="1" data-type="text">Espèce</th>
+            <th class="sortable" data-table="table-blancks-pays" data-index="2" data-type="number">Pourcentage</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 4 : CONTINENTS -->
+    <div id="section-continents" class="section">
+      <div class="section-header">
+        <h2>4. Espèces par continent</h2>
+        <p>Résumé provenant de <strong>Continents_Species_Numbers</strong>.</p>
+      </div>
+
+      <table id="table-continents">
+        <thead>
+          <tr>
+            <th class="sortable" data-table="table-continents" data-index="0" data-type="text">Continent</th>
+            <th class="sortable" data-table="table-continents" data-index="1" data-type="number"
+                title=" Nombre d'espèce déjà observé dans ce continent">Total species</th>
+            <th class="sortable" data-table="table-continents" data-index="2" data-type="number"
+                title="Nombre d'espèces visible seulement dans ce continent">Unique species
+                
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in continents %}
+            <tr>
+              <td>{{ row.Continent }}</td>
+              <td>{{ row.Total_Species }}</td>
+              <td>{{ row.Unique_Species }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 5 : CARTE -->
+    <div id="section-map" class="section">
+      <div class="section-header">
+        <h2>5. Carte interactive</h2>
+        <p>
+      Visualisation des pays selon le nombre d'espèces possibles et de blanks importants.
+      Clique sur un pays pour zoomer et ouvrir ses blanks importants.
+        </p>
+      </div>
+      <div class="toolbar">
+        <label for="map-continent-select">Vue :</label>
+        <select id="map-continent-select">
+            <option value="">Monde entier</option>
+            {% for row in continents %}
+            <option value="{{ row.Continent }}">{{ row.Continent }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="map-metric-select" style="margin-left: 12px;">Métrique :</label>
+        <select id="map-metric-select">
+            <option value="Total_Species">Total species</option>
+            <option value="Species_Above_00009">Nombre d'espèce annuelle</option>
+            <option value="Max_Species_Count">Max species count</option>
+        </select>
+
+        <small style="margin-left: 12px;">(Shift+clic sur un pays = zoom sur son continent)</small>
+       </div>
+
+      <div id="map" style="height: 600px; border-radius: 8px; overflow: hidden;"></div>
+    </div>
+  </div>
+
+  <script>
+    // ----- Onglets (sections) -----
+    const links = document.querySelectorAll(".tab-link");
+    const sections = document.querySelectorAll(".section");
+
+    // Données envoyées par Django
+
+    function showSection(name) {
+        sections.forEach(sec => {
+            if (sec.id === "section-" + name) {
+            sec.classList.add("active");
+            } else {
+            sec.classList.remove("active");
+            }
+        });
+        links.forEach(link => {
+            if (link.dataset.section === name) {
+            link.classList.add("active");
+            } else {
+            link.classList.remove("active");
+            }
+        });
+
+        if (name === "map") {
+            console.log("On affiche la section carte → initMap()");
+            initMap();
+        }
+    }   
+
+    links.forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const sectionName = link.dataset.section;
+        showSection(sectionName);
+      });
+    });
+
+    // ----- Blanks importants par pays -----
+    const blanksData = {{ blanks_data_json|safe }};
+    const blancksParPays = {{ blancks_par_pays_json|safe }};
+    
+
+        // 🔹 Tri multi-critères pour le rang global
+        const blanksDataRanked = [...blanksData].sort((a, b) => {
+        const aAbove = Number(a.Above_Threshold_Count) || 0;
+        const bAbove = Number(b.Above_Threshold_Count) || 0;
+
+        const aCountries = Number(a.Country_Count) || 0;
+        const bCountries = Number(b.Country_Count) || 0;
+
+        const aMaxPct = Number(a.Max_Percentage) || 0;
+        const bMaxPct = Number(b.Max_Percentage) || 0;
+
+        // 1) Nb de pays > seuil (décroissant)
+        if (bAbove !== aAbove) {
+            return bAbove - aAbove;
+        }
+
+        // 2) Nb de pays total (décroissant)
+        if (bCountries !== aCountries) {
+            return bCountries - aCountries;
+        }
+
+        // 3) % max (décroissant)
+        if (bMaxPct !== aMaxPct) {
+            return bMaxPct - aMaxPct;
+        }
+
+        // 4) optionnel : ordre alpha pour stabiliser
+        const aName = (a.Species || "").toLowerCase();
+        const bName = (b.Species || "").toLowerCase();
+        if (aName < bName) return -1;
+        if (aName > bName) return 1;
+        return 0;
+        });
+
+        // 🔹 Attribution du rang global
+        blanksDataRanked.forEach((row, idx) => {
+        row._global_rank = idx + 1;  // 1,2,3,...
+    });
+
+    const speciesGlobalRank = {};
+        blanksDataRanked.forEach(row => {
+            speciesGlobalRank[row.Species] = row._global_rank;
+        });
+
+    function updateBlancksTable(pays) {
+        const tbody = document.querySelector("#table-blancks-pays tbody");
+        if (!tbody) return;
+
+        tbody.innerHTML = "";
+        const rows = blancksParPays[pays] || [];
+
+        rows.forEach(row => {
+            const speciesName = row.species;
+            const globalRank = speciesGlobalRank[speciesName] ?? "";
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${globalRank}</td>
+                <td>${speciesName}</td>
+                <td>${row.value}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        const countSpan = document.getElementById("blancks-count");
+        if (countSpan) {
+            countSpan.textContent = rows.length;
+        }
+    }
+    
+
+    const selectPays = document.getElementById("select-pays");
+    if (selectPays) {
+      selectPays.addEventListener("change", () => {
+        updateBlancksTable(selectPays.value);
+      });
+      updateBlancksTable(selectPays.value);
+    }
+    // ----- CARTE INTERACTIVE -----
+// ----- Variables globales pour la carte -----
+let mapInstance = null;
+let mapInitialized = false;
+let geoLayer = null;
+
+const paysStats = {{ pays_stats_json|safe }};
+const countryContinents = {{ country_continents_json|safe }};
+let speciesMin = {{ species_min }};
+let speciesMax = {{ species_max }};
+let mapMetric = "Total_Species";
+let currentContinent = "";
+
+// Territoires qu'on ne veut pas colorier
+const EXCLUDED_TERRITORIES = new Set([
+  "French Guiana",
+  "French Polynesia",
+  "New Caledonia",
+  
+  "Saint Barthelemy",
+
+  
+  "Wallis and Futuna",
+  "Mayotte",
+  "Reunion",
+  "Puerto Rico",
+  "Guam",
+  "American Samoa",
+  "Northern Mariana Islands",
+  
+
+
+]);
+
+// Palette continue : jaune -> rouge
+function getColor(totalSpecies) {
+  if (totalSpecies == null) return "#f3f4f6";   // gris clair = pas de données
+
+  let t = (totalSpecies - speciesMin) / (speciesMax - speciesMin);
+  t = Math.max(0, Math.min(1, t));  // clamp 0–1
+
+  const hue = 60 - 60 * t;          // 60 -> 0
+  const saturation = 90;
+  const lightness = 50;
+
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+}
+
+function getMetricLabel(metric) {
+  if (metric === "Total_Species") return "Total d'espèces";
+  if (metric === "Species_Above_00009") return "Espèces > 0.0009";
+  if (metric === "Max_Species_Count") return "Blanks importants (max species)";
+  return "Métrique";
+}
+
+function updateLegend() {
+  const title = document.getElementById("legend-title");
+  const minSpan = document.getElementById("legend-min");
+  const maxSpan = document.getElementById("legend-max");
+
+  if (title) title.textContent = getMetricLabel(mapMetric);
+  if (minSpan) minSpan.textContent = speciesMin;
+  if (maxSpan) maxSpan.textContent = speciesMax;
+}
+
+
+// recalcul min/max + recolorisation + zoom
+function updateMapForContinent(continent) {
+  currentContinent = continent || "";   // mémoriser le continent courant
+
+  // 1) recalcul min/max sur la métrique choisie
+  const values = [];
+  for (const [name, stats] of Object.entries(paysStats)) {
+    if (!stats) continue;
+    if (EXCLUDED_TERRITORIES.has(name)) continue;
+
+    const cont = countryContinents[name];
+    if (!currentContinent || cont === currentContinent) {
+      const value = stats[mapMetric];
+      if (typeof value === "number") {
+        values.push(value);
+      }
+    }
+  }
+
+  if (values.length > 0) {
+    speciesMin = Math.min(...values);
+    speciesMax = Math.max(...values);
+  } else {
+    // fallback : min/max globaux pour cette métrique (on pourrait affiner côté Django plus tard)
+    speciesMin = {{ species_min }};
+    speciesMax = {{ species_max }};
+  }
+
+  updateLegend();
+
+  // 2) recolorisation
+  if (geoLayer) {
+    geoLayer.setStyle(feature => {
+      const name = feature.properties.ADMIN;
+
+      if (EXCLUDED_TERRITORIES.has(name)) {
+        return {
+          color: "#000000",
+          weight: 0.7,
+          fillColor: getColor(null),
+          fillOpacity: 1.0,
+        };
+      }
+
+      const stats = paysStats[name];
+      const value = stats ? stats[mapMetric] : null;
+      const cont = countryContinents[name];
+
+      return {
+        color: "#000000",
+        weight: 0.7,
+        fillColor: getColor(value),
+        fillOpacity: (!currentContinent || cont === currentContinent) ? 1.0 : 0.2,
+      };
+    });
+  }
+
+  // 3) zoom (inchangé, sauf qu'on utilise currentContinent)
+  if (geoLayer && mapInstance) {
+    let bounds = null;
+    geoLayer.eachLayer(layer => {
+      const name = layer.feature.properties.ADMIN;
+      if (EXCLUDED_TERRITORIES.has(name)) return;
+      const cont = countryContinents[name];
+      if (!currentContinent || cont === currentContinent) {
+        const b = layer.getBounds();
+        if (bounds) bounds.extend(b);
+        else bounds = b;
+      }
+    });
+    if (bounds) {
+      if (currentContinent) {
+        mapInstance.fitBounds(bounds, { padding: [20, 20] });
+      } else {
+        mapInstance.setView([20, 0], 2);
+      }
+    }
+  }
+}
+
+// ----- CARTE INTERACTIVE -----
+function initMap() {
+  const mapDiv = document.getElementById("map");
+  if (!mapDiv) return;
+
+  if (mapInitialized && mapInstance) {
+    setTimeout(() => {
+      mapInstance.invalidateSize();
+    }, 100);
+    return;
+  }
+  mapInitialized = true;
+
+  mapInstance = L.map("map", {
+    center: [20, 0],
+    zoom: 2,
+    minZoom: 2,
+    maxZoom: 6,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+  });
+
+
+
+  const geoUrl = "{% static 'geo/world_countries.geojson' %}";
+  console.log("GeoJSON URL :", geoUrl);
+
+  fetch(geoUrl)
+    .then(response => {
+      console.log("GeoJSON status :", response.status);
+      return response.text();
+    })
+    .then(text => {
+      const cleaned = text
+        .split("\n")
+        .filter(line => !line.trim().startsWith("#"))
+        .join("\n");
+
+      const geojsonData = JSON.parse(cleaned);
+
+      geoLayer = L.geoJSON(geojsonData, {
+        style: feature => {
+            const name = feature.properties.ADMIN;
+            let stats = paysStats[name];
+
+            if (EXCLUDED_TERRITORIES.has(name)) {
+                stats = null;
+            }
+
+            const value = stats ? stats[mapMetric] : null;
+
+            return {
+                color: "#000000",
+                weight: 0.7,
+                fillColor: getColor(value),
+                fillOpacity: 1.0,
+            };
+        },
+        onEachFeature: (feature, layer) => {
+            const name = feature.properties.ADMIN;
+            let stats = paysStats[name];
+            if (EXCLUDED_TERRITORIES.has(name)) {
+                stats = null;
+            }
+
+            let popupContent = `<b>${name}</b>`;
+                if (stats) {
+                popupContent += `<br>Total species : ${stats.Total_Species}`;
+                popupContent += `<br>Nombre d'espèce annuelle : ${stats.Species_Above_00009}`;
+                popupContent += `<br>Max species count : ${stats.Max_Species_Count}`;
+
+                // 👉 2 boutons d'action
+                popupContent += `
+                    <br><br>
+                    <a href="#" class="popup-open-important" data-country="${name}">
+                    ➜ Blanks importants pour ce pays
+                    </a>
+                    <br>
+                    <a href="#" class="popup-open-blanks" data-country="${name}">
+                    ➜ Blanks par espèce filtrés sur ce pays
+                    </a>
+                `;
+                } else {
+                popupContent += `<br><i>Pas de stats (territoire non pris en compte)</i>`;
+            }
+            layer.bindPopup(popupContent);
+            layer.on("click", (e) => {
+                const cont = countryContinents[name];
+
+                if (e.originalEvent.shiftKey && cont) {
+                    // Shift+clic → zoom continent
+                    const mapContinentSelect = document.getElementById("map-continent-select");
+                    if (mapContinentSelect) {
+                    mapContinentSelect.value = cont;
+                    }
+                    updateMapForContinent(cont);
+                } else {
+                    // Clic normal → juste zoom sur le pays et popup
+                    mapInstance.fitBounds(layer.getBounds());
+                    // Leaflet ouvre déjà le popup automatiquement quand on clique
+                }
+            });
+        }
+      });
+
+      geoLayer.addTo(mapInstance);
+
+      const legend = L.control({ position: "bottomleft" });
+      legend.onAdd = function () {
+        const div = L.DomUtil.create("div", "info legend");
+
+        div.style.background = "white";
+        div.style.padding = "6px 8px";
+        div.style.borderRadius = "4px";
+        div.style.boxShadow = "0 1px 4px rgba(0,0,0,0.3)";
+        div.style.fontSize = "12px";
+
+        div.innerHTML = `
+            <div id="legend-title" style="margin-bottom:4px;">Total d'espèces</div>
+            <div style="width:160px; height:12px;
+                        background: linear-gradient(to right,
+                            hsl(60,90%,50%),
+                            hsl(0,90%,50%));
+                        border: 1px solid #ccc; margin-bottom:2px;">
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span id="legend-min">${speciesMin}</span>
+                <span id="legend-max">${speciesMax}</span>
+            </div>
+        `;
+        return div;
+      };
+      legend.addTo(mapInstance);
+
+      // vue initiale = monde entier
+      updateMapForContinent("");
+
+      setTimeout(() => {
+        mapInstance.invalidateSize();
+      }, 100);
+    })
+    .catch(err => {
+      console.error("Erreur chargement / parsing GeoJSON :", err);
+    });
+}
+
+// ----- Init DOM -----
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM prêt, on appelle initMap()");
+  initMap();
+
+  const mapContinentSelect = document.getElementById("map-continent-select");
+  if (mapContinentSelect) {
+    mapContinentSelect.addEventListener("change", () => {
+      const value = mapContinentSelect.value || "";
+      updateMapForContinent(value);
+    });
+  }
+  const mapMetricSelect = document.getElementById("map-metric-select");
+    if (mapMetricSelect) {
+    mapMetricSelect.addEventListener("change", () => {
+        mapMetric = mapMetricSelect.value || "Total_Species";
+        // on re-applique la vue courante (continent courant)
+        updateMapForContinent(currentContinent);
+    });
+   }
+});
+
+document.addEventListener("click", (e) => {
+  const target = e.target;
+
+  // 1) Bouton "Blanks importants pour ce pays"
+  if (target.matches(".popup-open-important")) {
+    e.preventDefault();
+    const country = target.dataset.country;
+
+    const selectPays = document.getElementById("select-pays");
+    if (selectPays) {
+      selectPays.value = country;
+      const event = new Event("change");
+      selectPays.dispatchEvent(event);
+    }
+
+    // aller à la section "Blanks importants par pays"
+    showSection("important");
+  }
+
+  // 2) Bouton "Blanks par espèce filtrés sur ce pays"
+  if (target.matches(".popup-open-blanks")) {
+    e.preventDefault();
+    const country = target.dataset.country;
+
+    const filterCountry = document.getElementById("filter-blanks-country");
+    if (filterCountry) {
+      filterCountry.value = country;
+      const event = new Event("change");
+      filterCountry.dispatchEvent(event);
+    }
+
+    // afficher la section "Blanks par espèce"
+    showSection("blanks");
+  }
+});
+
+    // ----- Données complètes pour Blanks (avec colonnes pays) -----
+
+
+const blanksTbody = document.getElementById("tbody-blanks");
+const searchBlanks = document.getElementById("search-blanks");
+const filterBlanksCountry = document.getElementById("filter-blanks-country");
+const BLANK_VALUE_THRESHOLD = 0.0000009;
+const blanksCountSpan = document.getElementById("blanks-count");
+// ---------------------
+// RANG GLOBAL PAR ESPÈCE
+// ---------------------
+
+
+
+
+function renderBlanksTable() {
+  if (!blanksTbody) return;
+
+  const q = (searchBlanks?.value || "").toLowerCase();
+  const selectedCountry = filterBlanksCountry?.value || "";
+
+  blanksTbody.innerHTML = "";
+
+  let visibleCount = 0;
+
+  blanksDataRanked.forEach(row => {
+    const speciesName = (row.Species || "").toLowerCase();
+
+    // 🔍 filtre sur le nom d'espèce
+    if (q && !speciesName.includes(q)) {
+      return;
+    }
+
+    // 🎯 filtre sur un pays (valeur > seuil)
+    let selectedValue = "";
+    if (selectedCountry) {
+      const valRaw = row[selectedCountry];
+      const valNum = Number(valRaw);
+      if (!valRaw || isNaN(valNum) || valNum <= BLANK_VALUE_THRESHOLD) {
+        return;
+      }
+      selectedValue = valNum;
+    }
+
+    visibleCount += 1;
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${row._global_rank}</td>
+      <td>${row.Species}</td>
+      <td>${row.Country_Count}</td>
+      <td>${row.Above_Threshold_Count}</td>
+      <td>${row.Max_Percentage}</td>
+      <td>${row.Max_Percentage_Country}</td>
+      <td>${selectedValue}</td>
+    `;
+    blanksTbody.appendChild(tr);
+  });
+
+  // 🔢 mettre à jour le compteur affiché
+  if (blanksCountSpan) {
+    blanksCountSpan.textContent = visibleCount;
+  }
+}
+
+// Recherche + filtre pays pour Blanks
+if (searchBlanks) {
+  searchBlanks.addEventListener("input", renderBlanksTable);
+}
+if (filterBlanksCountry) {
+  filterBlanksCountry.addEventListener("change", renderBlanksTable);
+}
+
+// Rendu initial
+renderBlanksTable();
+    
+    // ----- Tri des tableaux -----
+    function sortTable(tableId, colIndex, type, th) {
+      const table = document.getElementById(tableId);
+      if (!table) return;
+
+      const tbody = table.querySelector("tbody");
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+
+      // déterminer le sens
+      let ascending = true;
+      if (th.classList.contains("sorted-asc")) {
+        ascending = false;
+      }
+
+      // reset classes sur les th du même tableau
+      table.querySelectorAll("th.sortable").forEach(header => {
+        header.classList.remove("sorted-asc", "sorted-desc");
+      });
+      th.classList.add(ascending ? "sorted-asc" : "sorted-desc");
+
+      rows.sort((a, b) => {
+        const aText = a.children[colIndex].textContent.trim();
+        const bText = b.children[colIndex].textContent.trim();
+
+        if (type === "number") {
+          const aNum = parseFloat(aText.replace(",", ".")) || 0;
+          const bNum = parseFloat(bText.replace(",", ".")) || 0;
+          return ascending ? aNum - bNum : bNum - aNum;
+        } else {
+          const aLower = aText.toLowerCase();
+          const bLower = bText.toLowerCase();
+          if (aLower < bLower) return ascending ? -1 : 1;
+          if (aLower > bLower) return ascending ? 1 : -1;
+          return 0;
+        }
+      });
+
+      rows.forEach(row => tbody.appendChild(row));
+    }
+
+    document.querySelectorAll("th.sortable").forEach(th => {
+      th.addEventListener("click", () => {
+        const tableId = th.dataset.table;
+        const index = parseInt(th.dataset.index, 10);
+        const type = th.dataset.type || "text";
+        sortTable(tableId, index, type, th);
+      });
+    });
+
+// Recherche + filtre pays pour Blanks
+if (searchBlanks) {
+  searchBlanks.addEventListener("input", renderBlanksTable);
+}
+if (filterBlanksCountry) {
+  filterBlanksCountry.addEventListener("change", renderBlanksTable);
+}
+
+// Rendu initial (aucun pays sélectionné → colonne 6 vide, toutes les espèces)
+renderBlanksTable();
+
+    // ----- Filtre par continent (Stats par pays) -----
+    const filterContinent = document.getElementById("filter-continent");
+    const paysRows = document.querySelectorAll("#table-pays tbody tr");
+
+    // remplir le select automatiquement avec les continents présents
+    if (filterContinent) {
+      const continentsSet = new Set();
+      paysRows.forEach(row => {
+        const cont = row.children[2].textContent.trim();
+        if (cont) continentsSet.add(cont);
+      });
+      Array.from(continentsSet).sort().forEach(cont => {
+        const opt = document.createElement("option");
+        opt.value = cont;
+        opt.textContent = cont;
+        filterContinent.appendChild(opt);
+      });
+
+      filterContinent.addEventListener("change", () => {
+        const value = filterContinent.value;
+        paysRows.forEach(row => {
+          const cont = row.children[2].textContent.trim();
+          if (!value || cont === value) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      });
+    }
+
+    // ----- Réinitialiser la vue -----
+    const resetBtn = document.getElementById("reset-view");
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => {
+        // plus simple : recharger la page
+        window.location.reload();
+      });
+    }
+  </script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</body>
+</html>
