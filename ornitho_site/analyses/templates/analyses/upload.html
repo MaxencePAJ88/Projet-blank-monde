@@ -24,6 +24,13 @@
     <button type="submit">Lancer l'analyse</button>
   </form>
 
+  {% if user.is_authenticated %}
+    <p><a href="{% url 'analyses:user_analyses' %}">Voir mes analyses</a></p>
+    <p><a href="{% url 'analyses:logout' %}">Se déconnecter</a></p>
+  {% else %}
+    <p><a href="{% url 'analyses:login' %}">Se connecter</a> ou <a href="{% url 'analyses:register' %}">s'inscrire</a> pour sauvegarder vos analyses.</p>
+  {% endif %}
+
 {% if blanks_preview %}
   <h2>Aperçu – Liste_blancks_world_classified (top 20)</h2>
   <table border="1" cellpadding="4" cellspacing="0">

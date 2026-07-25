@@ -3,7 +3,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Analyse #{{ analyse.id }}</title>
+  <title>{{ page_title }}</title>
   <style>
     #map {
         background: #e5e7eb; /* gris clair type eBird */
@@ -147,7 +147,7 @@
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <h2>Analyse #{{ analyse.id }}</h2>
+    <h2>{{ page_title }}</h2>
     <a data-section="blanks" class="tab-link active">Liste des blanks monde</a>
     <a data-section="pays" class="tab-link">Statistiques par pays</a>
     <a data-section="important" class="tab-link">Blanks importants par pays</a>
@@ -159,11 +159,29 @@
   <!-- MAIN CONTENT -->
   <div class="content">
 
-    <h1>Analyse #{{ analyse.id }}</h1>
+    <h1>{{ page_title }}</h1>
     <p>
-      Fichier : {{ analyse.life_list_file.name }}<br>
-      Créée le : {{ analyse.date_creation }}
+      Fichier source : {{ file_name }}<br>
+      {% if created_at %}
+      Créée le : {{ created_at }}
+      {% else %}
+      Mode : baseline globale (sans life list uploadée)
+      {% endif %}
+      <br>
+      Lifelist number: {{ lifelist_count|default:"0" }}
     </p>
+
+    <div class="toolbar">
+      {% if user.is_authenticated %}
+      <a href="{% url 'analyses:user_analyses' %}">Mes analyses</a>
+      <a href="{% url 'analyses:upload' %}">Upload my life list</a>
+      <a href="{% url 'analyses:logout' %}">Se déconnecter</a>
+      {% else %}
+      <a href="{% url 'analyses:login' %}">Se connecter</a>
+      <a href="{% url 'analyses:register' %}">Créer un compte</a>
+      <a href="{% url 'analyses:upload' %}">Upload my life list</a>
+      {% endif %}
+    </div>
 
     <div class="toolbar">
       <button id="reset-view">Réinitialiser la vue</button>
@@ -182,16 +200,13 @@
         <input type="text" id="search-blanks" placeholder="Tape un nom d'espèce...">
 
         <span id="blanks-count-wrapper" style="margin-left: 16px;">
-            Nombre d'espèces affichées : <strong id="blanks-count">0</strong>
+          Nombre de blanks world : <strong id="blanks-count">0</strong>
         </span>
       </div>
       <div class="toolbar">
         <label for="filter-blanks-country">Filtrer par pays (pour toutes espèces ayant une valeur  &gt; 0.0000009 , permettant d'éliminier toutes les espèces très occasionnelles) :</label>
         <select id="filter-blanks-country">
             <option value="">Aucun filtre</option>
-            {% for p in blanks_country_cols %}
-            <option value="{{ p }}">{{ p }}</option>
-            {% endfor %}
         </select>
         </div>
       <table id="table-blanks">
@@ -218,6 +233,7 @@
             <!-- rempli en JS -->
         </tbody>
         </table>
+        <div id="blanks-pagination" class="toolbar"></div>
     </div>
 
     <!-- SECTION 2 : PAYS -->
@@ -249,17 +265,8 @@
                 title="Il s'agit du nombre d'espèce qui ont leur pourcentage maximum d'apparition danc ce pays">Max species count</th>
           </tr>
         </thead>
-        <tbody>
-          {% for row in liste_pays %}
-            <tr>
-              <td>{{ forloop.counter }}</td>
-              <td>{{ row.Country }}</td>
-              <td>{{ row.Continent }}</td>
-              <td>{{ row.Total_Species }}</td>
-              <td>{{ row.Species_Above_00009 }}</td>
-              <td>{{ row.Max_Species_Count }}</td>
-            </tr>
-          {% endfor %}
+        <tbody id="tbody-pays">
+          <tr><td colspan="6">Chargement des statistiques par pays...</td></tr>
         </tbody>
       </table>
     </div>
@@ -321,14 +328,8 @@
             </th>
           </tr>
         </thead>
-        <tbody>
-          {% for row in continents %}
-            <tr>
-              <td>{{ row.Continent }}</td>
-              <td>{{ row.Total_Species }}</td>
-              <td>{{ row.Unique_Species }}</td>
-            </tr>
-          {% endfor %}
+        <tbody id="tbody-continents">
+          <tr><td colspan="3">Chargement des données par continent...</td></tr>
         </tbody>
       </table>
     </div>
@@ -346,9 +347,6 @@
         <label for="map-continent-select">Vue :</label>
         <select id="map-continent-select">
             <option value="">Monde entier</option>
-            {% for row in continents %}
-            <option value="{{ row.Continent }}">{{ row.Continent }}</option>
-            {% endfor %}
         </select>
 
         <label for="map-metric-select" style="margin-left: 12px;">Métrique :</label>
@@ -366,6 +364,10 @@
   </div>
 
   <script>
+    const blanksEndpoint = "{{ blanks_endpoint_url|escapejs }}";
+    const blanksByCountryEndpoint = "{{ blanks_by_country_endpoint_url|escapejs }}";
+    const summaryEndpoint = "{{ summary_endpoint_url|escapejs }}";
+
     // ----- Onglets (sections) -----
     const links = document.querySelectorAll(".tab-link");
     const sections = document.querySelectorAll(".section");
@@ -388,11 +390,31 @@
             }
         });
 
-        if (name === "map") {
+            if (name === "map") {
             console.log("On affiche la section carte → initMap()");
-            initMap();
+            if (!summaryLoaded) {
+              loadSummaryData().then(() => initMap());
+            } else {
+              initMap();
+            }
         }
-    }   
+        if (name === "pays" || name === "continents") {
+            if (!summaryLoaded) {
+              loadSummaryData();
+            }
+        }
+        if (name === "blanks") {
+          // lazy-load les données lourdes
+          loadBlanksData();
+        }
+        if (name === "important") {
+          const selectPays = document.getElementById("select-pays");
+          if (selectPays && selectPays.value) {
+            loadBlanksByCountry(selectPays.value);
+          }
+        }
+        activeSection = name;
+    }
 
     links.forEach(link => {
       link.addEventListener("click", (e) => {
@@ -402,101 +424,189 @@
       });
     });
 
-    // ----- Blanks importants par pays -----
-    const blanksData = {{ blanks_data_json|safe }};
-    const blancksParPays = {{ blancks_par_pays_json|safe }};
-    
+    // ----- Blanks importants par pays (lazy-loaded) -----
+    let blanksPageData = [];
+    let blanksCountryCols = [];
+    let blanksTotalCount = 0;
+    let blanksCurrentPage = 1;
+    const blanksPageSize = 50;
+    let blanksLoaded = false;
+    let blanksLoading = false;
 
-        // 🔹 Tri multi-critères pour le rang global
-        const blanksDataRanked = [...blanksData].sort((a, b) => {
-        const aAbove = Number(a.Above_Threshold_Count) || 0;
-        const bAbove = Number(b.Above_Threshold_Count) || 0;
+    async function loadBlanksData(page = 1) {
+      if (blanksLoading) return;
+      blanksLoading = true;
+      try {
+        const search = document.getElementById("search-blanks")?.value.trim() || "";
+        const country = document.getElementById("filter-blanks-country")?.value || "";
+        const url = new URL(blanksEndpoint, window.location.origin);
+        url.searchParams.append("page", page);
+        url.searchParams.append("page_size", blanksPageSize);
+        if (search) url.searchParams.append("search", search);
+        if (country) url.searchParams.append("country", country);
 
-        const aCountries = Number(a.Country_Count) || 0;
-        const bCountries = Number(b.Country_Count) || 0;
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error('Erreur réseau');
+        const payload = await resp.json();
 
-        const aMaxPct = Number(a.Max_Percentage) || 0;
-        const bMaxPct = Number(b.Max_Percentage) || 0;
+        blanksPageData = payload.blanks_data || [];
+        blanksCountryCols = payload.blanks_country_cols || [];
+        blanksTotalCount = payload.total_count || 0;
+        blanksCurrentPage = payload.page || page;
+        blanksLoaded = true;
 
-        // 1) Nb de pays > seuil (décroissant)
-        if (bAbove !== aAbove) {
-            return bAbove - aAbove;
+        const filterBlanksCountry = document.getElementById("filter-blanks-country");
+        if (filterBlanksCountry && filterBlanksCountry.options.length <= 1) {
+          filterBlanksCountry.innerHTML = '<option value="">Aucun filtre</option>';
+          blanksCountryCols.forEach(col => {
+            const option = document.createElement('option');
+            option.value = col;
+            option.textContent = col;
+            filterBlanksCountry.appendChild(option);
+          });
         }
 
-        // 2) Nb de pays total (décroissant)
-        if (bCountries !== aCountries) {
-            return bCountries - aCountries;
-        }
+        renderBlanksTable();
+        renderBlanksPagination();
+      } catch (err) {
+        console.error('Erreur chargement blanks:', err);
+      } finally {
+        blanksLoading = false;
+      }
+    }
 
-        // 3) % max (décroissant)
-        if (bMaxPct !== aMaxPct) {
-            return bMaxPct - aMaxPct;
-        }
+    async function loadBlanksByCountry(country) {
+      if (!country) return;
+      try {
+        const url = new URL(blanksByCountryEndpoint, window.location.origin);
+        url.searchParams.append("country", country);
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error('Erreur réseau');
+        const payload = await resp.json();
 
-        // 4) optionnel : ordre alpha pour stabiliser
-        const aName = (a.Species || "").toLowerCase();
-        const bName = (b.Species || "").toLowerCase();
-        if (aName < bName) return -1;
-        if (aName > bName) return 1;
-        return 0;
-        });
-
-        // 🔹 Attribution du rang global
-        blanksDataRanked.forEach((row, idx) => {
-        row._global_rank = idx + 1;  // 1,2,3,...
-    });
-
-    const speciesGlobalRank = {};
-        blanksDataRanked.forEach(row => {
-            speciesGlobalRank[row.Species] = row._global_rank;
-        });
-
-    function updateBlancksTable(pays) {
         const tbody = document.querySelector("#table-blancks-pays tbody");
         if (!tbody) return;
-
         tbody.innerHTML = "";
-        const rows = blancksParPays[pays] || [];
 
-        rows.forEach(row => {
-            const speciesName = row.species;
-            const globalRank = speciesGlobalRank[speciesName] ?? "";
-
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td>${globalRank}</td>
-                <td>${speciesName}</td>
-                <td>${row.value}</td>
-            `;
-            tbody.appendChild(tr);
+        payload.rows.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${row.global_rank || ''}</td>
+            <td>${row.species || ''}</td>
+            <td>${row.value || ''}</td>
+          `;
+          tbody.appendChild(tr);
         });
 
         const countSpan = document.getElementById("blancks-count");
         if (countSpan) {
-            countSpan.textContent = rows.length;
+          countSpan.textContent = payload.total_count || 0;
         }
+      } catch (err) {
+        console.error('Erreur chargement blanks par pays:', err);
+      }
     }
-    
 
-    const selectPays = document.getElementById("select-pays");
-    if (selectPays) {
-      selectPays.addEventListener("change", () => {
-        updateBlancksTable(selectPays.value);
-      });
-      updateBlancksTable(selectPays.value);
+    async function loadSummaryData() {
+      if (summaryLoaded || summaryLoading) return;
+      summaryLoading = true;
+      try {
+        const resp = await fetch(summaryEndpoint);
+        if (!resp.ok) throw new Error('Erreur réseau');
+        const payload = await resp.json();
+
+        paysStats = payload.pays_stats || {};
+        countryContinents = payload.country_continents || {};
+        speciesMin = payload.species_min || 0;
+        speciesMax = payload.species_max || 1;
+
+        renderPaysTable(payload.liste_pays_records || []);
+        renderContinentsTable(payload.continents_records || []);
+        populateMapContinentSelect(payload.liste_pays_records || []);
+
+        summaryLoaded = true;
+      } catch (err) {
+        console.error('Erreur chargement summary:', err);
+      } finally {
+        summaryLoading = false;
+      }
     }
+
+    function renderPaysTable(rows) {
+      const tbody = document.getElementById('tbody-pays');
+      if (!tbody) return;
+      if (!Array.isArray(rows) || rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6">Aucune donnée disponible.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = '';
+      rows.forEach((row, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${row.Country}</td>
+          <td>${row.Continent}</td>
+          <td>${row.Total_Species}</td>
+          <td>${row.Species_Above_00009}</td>
+          <td>${row.Max_Species_Count}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderContinentsTable(rows) {
+      const tbody = document.getElementById('tbody-continents');
+      if (!tbody) return;
+      if (!Array.isArray(rows) || rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3">Aucune donnée disponible.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = '';
+      rows.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.Continent}</td>
+          <td>${row.Total_Species}</td>
+          <td>${row.Unique_Species}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function populateMapContinentSelect(rows) {
+      const mapContinentSelect = document.getElementById('map-continent-select');
+      if (!mapContinentSelect) return;
+      const continents = Array.from(new Set(rows.map(r => r.Continent).filter(Boolean))).sort();
+      mapContinentSelect.innerHTML = '<option value="">Monde entier</option>';
+      continents.forEach(cont => {
+        const option = document.createElement('option');
+        option.value = cont;
+        option.textContent = cont;
+        mapContinentSelect.appendChild(option);
+      });
+      mapContinentSelect.addEventListener('change', () => {
+        const value = mapContinentSelect.value || '';
+        updateMapForContinent(value);
+      });
+    }
+
+
+
     // ----- CARTE INTERACTIVE -----
 // ----- Variables globales pour la carte -----
 let mapInstance = null;
 let mapInitialized = false;
 let geoLayer = null;
 
-const paysStats = {{ pays_stats_json|safe }};
-const countryContinents = {{ country_continents_json|safe }};
-let speciesMin = {{ species_min }};
-let speciesMax = {{ species_max }};
+let paysStats = {};
+let countryContinents = {};
+let speciesMin = 0;
+let speciesMax = 1;
 let mapMetric = "Total_Species";
 let currentContinent = "";
+let summaryLoaded = false;
+let summaryLoading = false;
+let activeSection = "blanks";
 
 // Territoires qu'on ne veut pas colorier
 const EXCLUDED_TERRITORIES = new Set([
@@ -574,9 +684,9 @@ function updateMapForContinent(continent) {
     speciesMin = Math.min(...values);
     speciesMax = Math.max(...values);
   } else {
-    // fallback : min/max globaux pour cette métrique (on pourrait affiner côté Django plus tard)
-    speciesMin = {{ species_min }};
-    speciesMax = {{ species_max }};
+    // fallback : min/max globaux pour cette métrique
+    speciesMin = 0;
+    speciesMax = 1;
   }
 
   updateLegend();
@@ -779,8 +889,16 @@ function initMap() {
 
 // ----- Init DOM -----
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM prêt, on appelle initMap()");
-  initMap();
+  console.log("DOM prêt");
+  const activeTab = document.querySelector('.tab-link.active');
+  if (activeTab) {
+    if (activeTab.dataset.section === 'blanks') {
+      loadBlanksData();
+    }
+    if (activeTab.dataset.section === 'map') {
+      initMap();
+    }
+  }
 
   const mapContinentSelect = document.getElementById("map-continent-select");
   if (mapContinentSelect) {
@@ -853,22 +971,20 @@ const blanksCountSpan = document.getElementById("blanks-count");
 function renderBlanksTable() {
   if (!blanksTbody) return;
 
-  const q = (searchBlanks?.value || "").toLowerCase();
-  const selectedCountry = filterBlanksCountry?.value || "";
-
   blanksTbody.innerHTML = "";
 
+  if (!Array.isArray(blanksPageData) || blanksPageData.length === 0) {
+    blanksTbody.innerHTML = '<tr><td colspan="7">Aucun résultat pour ces filtres.</td></tr>';
+    if (blanksCountSpan) blanksCountSpan.textContent = 0;
+    return;
+  }
+
+  const selectedCountry = filterBlanksCountry?.value || "";
   let visibleCount = 0;
 
-  blanksDataRanked.forEach(row => {
+  blanksPageData.forEach(row => {
     const speciesName = (row.Species || "").toLowerCase();
 
-    // 🔍 filtre sur le nom d'espèce
-    if (q && !speciesName.includes(q)) {
-      return;
-    }
-
-    // 🎯 filtre sur un pays (valeur > seuil)
     let selectedValue = "";
     if (selectedCountry) {
       const valRaw = row[selectedCountry];
@@ -883,34 +999,59 @@ function renderBlanksTable() {
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${row._global_rank}</td>
-      <td>${row.Species}</td>
-      <td>${row.Country_Count}</td>
-      <td>${row.Above_Threshold_Count}</td>
-      <td>${row.Max_Percentage}</td>
-      <td>${row.Max_Percentage_Country}</td>
+      <td>${row._global_rank || ''}</td>
+      <td>${row.Species || ''}</td>
+      <td>${row.Country_Count || ''}</td>
+      <td>${row.Above_Threshold_Count || ''}</td>
+      <td>${row.Max_Percentage || ''}</td>
+      <td>${row.Max_Percentage_Country || ''}</td>
       <td>${selectedValue}</td>
     `;
     blanksTbody.appendChild(tr);
   });
 
-  // 🔢 mettre à jour le compteur affiché
   if (blanksCountSpan) {
-    blanksCountSpan.textContent = visibleCount;
+    blanksCountSpan.textContent = blanksTotalCount;
   }
 }
 
-// Recherche + filtre pays pour Blanks
-if (searchBlanks) {
-  searchBlanks.addEventListener("input", renderBlanksTable);
-}
-if (filterBlanksCountry) {
-  filterBlanksCountry.addEventListener("change", renderBlanksTable);
+function renderBlanksPagination() {
+  const paginationContainer = document.getElementById('blanks-pagination');
+  if (!paginationContainer) return;
+
+  const totalPages = Math.max(1, Math.ceil(blanksTotalCount / blanksPageSize));
+  const currentPage = Math.min(Math.max(1, blanksCurrentPage), totalPages);
+
+  paginationContainer.innerHTML = "";
+
+  const pageInfo = document.createElement('span');
+  pageInfo.textContent = `Page ${currentPage} / ${totalPages} (${blanksTotalCount} espèces)`;
+  paginationContainer.appendChild(pageInfo);
+
+  const controls = document.createElement('div');
+  controls.style.display = 'flex';
+  controls.style.gap = '8px';
+  controls.style.flexWrap = 'wrap';
+  controls.style.alignItems = 'center';
+  controls.style.marginLeft = '12px';
+
+  const createButton = (label, page, disabled) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = label;
+    btn.disabled = disabled;
+    btn.addEventListener('click', () => loadBlanksData(page));
+    return btn;
+  };
+
+  controls.appendChild(createButton('Première', 1, currentPage === 1));
+  controls.appendChild(createButton('Précédente', currentPage - 1, currentPage === 1));
+  controls.appendChild(createButton('Suivante', currentPage + 1, currentPage === totalPages));
+  controls.appendChild(createButton('Dernière', totalPages, currentPage === totalPages));
+
+  paginationContainer.appendChild(controls);
 }
 
-// Rendu initial
-renderBlanksTable();
-    
     // ----- Tri des tableaux -----
     function sortTable(tableId, colIndex, type, th) {
       const table = document.getElementById(tableId);
@@ -962,14 +1103,19 @@ renderBlanksTable();
 
 // Recherche + filtre pays pour Blanks
 if (searchBlanks) {
-  searchBlanks.addEventListener("input", renderBlanksTable);
+  searchBlanks.addEventListener("input", () => loadBlanksData(1));
 }
 if (filterBlanksCountry) {
-  filterBlanksCountry.addEventListener("change", renderBlanksTable);
+  filterBlanksCountry.addEventListener("change", () => loadBlanksData(1));
 }
 
-// Rendu initial (aucun pays sélectionné → colonne 6 vide, toutes les espèces)
-renderBlanksTable();
+const selectPays = document.getElementById("select-pays");
+if (selectPays) {
+  selectPays.addEventListener("change", () => loadBlanksByCountry(selectPays.value));
+  if (selectPays.value) {
+    loadBlanksByCountry(selectPays.value);
+  }
+}
 
     // ----- Filtre par continent (Stats par pays) -----
     const filterContinent = document.getElementById("filter-continent");

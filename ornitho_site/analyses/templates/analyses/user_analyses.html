@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mes analyses</title>
+</head>
+<body>
+  <h1>Mes analyses</h1>
+
+  <p><a href="{% url 'analyses:upload' %}">Uploader une nouvelle life list</a></p>
+  <p><a href="{% url 'analyses:logout' %}">Se déconnecter</a></p>
+
+  {% if analyses %}
+    <table border="1" cellpadding="4" cellspacing="0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Titre</th>
+          <th>Fichier</th>
+          <th>Date</th>
+          <th>Voir</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for analyse in analyses %}
+          <tr>
+            <td>{{ analyse.id }}</td>
+            <td>{{ analyse.titre|default:"Analyse" }}</td>
+            <td>{{ analyse.life_list_file.name }}</td>
+            <td>{{ analyse.date_creation }}</td>
+            <td><a href="{% url 'analyses:detail' analyse.id %}">Voir</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Aucune analyse encore disponible.</p>
+  {% endif %}
+</body>
+</html>

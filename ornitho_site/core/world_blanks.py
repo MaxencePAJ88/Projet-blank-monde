@@ -9,6 +9,11 @@ Premiere fonction: build_user_target_species(life_list_file, target_species_file
 
 # core/world_blanks.py
 import pandas as pd
+import numpy as np
+
+
+def normalize_species_name(name):
+    return str(name).strip().lower() if name is not None else ""
 
 
 def build_user_target_species(life_list_file, target_species_file):
@@ -88,6 +93,269 @@ def build_user_target_species(life_list_file, target_species_file):
 
     return updated_target_species_df, dv_df
 
+
+def build_baseline_target_species(target_species_file):
+    """
+    Charge le fichier des espèces cibles monde sans retirer d'espèce.
+    Ce baseline représente l'état de départ commun à toutes les analyses.
+    """
+    target_species_df = pd.read_excel(target_species_file, dtype=str, header=None)
+    return target_species_df.copy(), target_species_df.copy()
+
+
+def compute_results_from_dv(dv_df: pd.DataFrame):
+    """
+    Calcule tous les résultats structurés à partir d'un DataFrame DV.
+    """
+    liste_blanks_df = compute_liste_blanks_world_classified(dv_df)
+    liste_pays_df = compute_liste_pays_with_nb_coches(dv_df)
+    continents_df = compute_continents_species_numbers(dv_df)
+    blancks_df, blancks_dict = compute_blancks_important_by_countries(dv_df)
+
+    liste_blanks_df = liste_blanks_df.rename(columns={
+        "Country Count": "Country_Count",
+        "Above Threshold Count": "Above_Threshold_Count",
+        "Max Percentage": "Max_Percentage",
+        "Max Percentage Country": "Max_Percentage_Country",
+    })
+
+    liste_pays_df = liste_pays_df.rename(columns={
+        "Total Species": "Total_Species",
+        "Species Above 0.0009": "Species_Above_00009",
+        "Max Species Count": "Max_Species_Count",
+    })
+
+    continents_df = continents_df.rename(columns={
+        "Total Species": "Total_Species",
+        "Unique Species": "Unique_Species",
+    })
+
+    if "Max_Percentage" in liste_blanks_df.columns:
+        liste_blanks_df["Max_Percentage"] = (
+            liste_blanks_df["Max_Percentage"] * 100
+        ).round(4)
+
+    global_cols = [
+        "Species",
+        "Country_Count",
+        "Above_Threshold_Count",
+        "Max_Percentage",
+        "Max_Percentage_Country",
+        "Median_Percentage",
+        "Median Percentage",
+    ]
+    blanks_country_cols = [
+        c for c in liste_blanks_df.columns
+        if c not in global_cols
+    ]
+    for col in blanks_country_cols:
+        liste_blanks_df[col] = (liste_blanks_df[col] * 100).round(4)
+
+    for country, rows in blancks_dict.items():
+        for row in rows:
+            row["value"] = round(row.get("value", 0) * 100, 4)
+
+    liste_blanks_df = liste_blanks_df.sort_values(
+        by=["Country_Count", "Above_Threshold_Count", "Max_Percentage"],
+        ascending=[False, False, False]
+    )
+
+    liste_pays_df = liste_pays_df.sort_values(
+        by="Total_Species",
+        ascending=False
+    )
+    species_min = int(liste_pays_df["Total_Species"].min()) if not liste_pays_df.empty else 0
+    species_max = int(liste_pays_df["Total_Species"].max()) if not liste_pays_df.empty else 0
+
+    country_continents = {
+        row["Country"]: row["Continent"]
+        for _, row in liste_pays_df.iterrows()
+    }
+
+    pays_stats = {
+        row["Country"]: {
+            "Total_Species": int(row["Total_Species"]),
+            "Species_Above_00009": int(row["Species_Above_00009"]),
+            "Max_Species_Count": int(row["Max_Species_Count"]),
+        }
+        for _, row in liste_pays_df.iterrows()
+    }
+
+    return {
+        "liste_blanks_records": liste_blanks_df.to_dict(orient="records"),
+        "liste_pays_records": liste_pays_df.to_dict(orient="records"),
+        "continents_records": continents_df.to_dict(orient="records"),
+        "pays_list": sorted(blancks_dict.keys()),
+        "blanks_country_cols": blanks_country_cols,
+        "blancks_par_pays": blancks_dict,
+        "pays_stats": pays_stats,
+        "country_continents": country_continents,
+        "species_min": species_min,
+        "species_max": species_max,
+    }
+
+
+def compute_baseline_results(target_species_file):
+    _, dv_df = build_baseline_target_species(target_species_file)
+    return compute_results_from_dv(dv_df)
+
+
+def filter_upload_results(baseline_results, species_to_remove, threshold=0.0000009):
+    """
+    Recalcule les résultats à partir d'un baseline en enlevant les espèces uploadées.
+    """
+    filtered_blanks = [
+        row.copy() for row in baseline_results["liste_blanks_records"]
+        if normalize_species_name(row.get("Species")) not in species_to_remove
+    ]
+
+    def sort_key(row):
+        return (
+            -int(row.get("Above_Threshold_Count", 0)),
+            -int(row.get("Country_Count", 0)),
+            -float(row.get("Max_Percentage", 0)),
+            str(row.get("Species", "")).lower(),
+        )
+
+    filtered_blanks.sort(key=sort_key)
+    for idx, row in enumerate(filtered_blanks, start=1):
+        row["_global_rank"] = idx
+
+    blanks_country_cols = baseline_results.get("blanks_country_cols", [])
+    country_continents = baseline_results.get("country_continents", {})
+
+    if not filtered_blanks:
+        return {
+            "liste_blanks_records": [],
+            "liste_pays_records": [],
+            "continents_records": [],
+            "pays_list": [],
+            "blanks_country_cols": blanks_country_cols,
+            "blancks_par_pays": {},
+            "pays_stats": {},
+            "country_continents": country_continents,
+            "species_min": 0,
+            "species_max": 0,
+        }
+
+    df = pd.DataFrame(filtered_blanks)
+    for col in blanks_country_cols:
+        if col not in df.columns:
+            df[col] = 0.0
+
+    numeric_values = (
+        df[blanks_country_cols]
+        .apply(pd.to_numeric, errors="coerce")
+        .fillna(0.0)
+    )
+
+    present_mask = numeric_values.gt(0.0)
+    above_mask = numeric_values.gt(float(threshold))
+
+    total_species_by_country = present_mask.sum(axis=0)
+    above_threshold_by_country = above_mask.sum(axis=0)
+    max_country_counts = (
+        df["Max_Percentage_Country"]
+        .fillna("")
+        .value_counts()
+    )
+
+    liste_pays_records = []
+    pays_stats = {}
+    for country in blanks_country_cols:
+        total_species = int(total_species_by_country.get(country, 0))
+        species_above_threshold = int(above_threshold_by_country.get(country, 0))
+        max_species_count = int(max_country_counts.get(country, 0))
+
+        pays_stats[country] = {
+            "Total_Species": total_species,
+            "Species_Above_00009": species_above_threshold,
+            "Max_Species_Count": max_species_count,
+        }
+        liste_pays_records.append({
+            "Country": country,
+            "Continent": country_continents.get(country),
+            "Total_Species": total_species,
+            "Species_Above_00009": species_above_threshold,
+            "Max_Species_Count": max_species_count,
+        })
+
+    liste_pays_records.sort(key=lambda r: (-r["Total_Species"], str(r.get("Country", "")).lower()))
+
+    continent_to_countries = {}
+    for country in blanks_country_cols:
+        continent = country_continents.get(country)
+        if continent:
+            continent_to_countries.setdefault(continent, []).append(country)
+
+    continent_presence = {}
+    for continent, countries in continent_to_countries.items():
+        if not countries:
+            continue
+        continent_presence[continent] = present_mask[countries].any(axis=1)
+
+    continents_records = []
+    if continent_presence:
+        continent_presence_df = pd.DataFrame(continent_presence)
+        species_continent_counts = continent_presence_df.sum(axis=1)
+        for continent in sorted(continent_presence_df.columns, key=lambda c: str(c).lower()):
+            mask = continent_presence_df[continent]
+            total_species = int(mask.sum())
+            unique_species = int((mask & species_continent_counts.eq(1)).sum())
+            continents_records.append({
+                "Continent": continent,
+                "Total_Species": total_species,
+                "Unique_Species": unique_species,
+            })
+    continents_records.sort(key=lambda r: str(r["Continent"]).lower())
+
+    country_to_idx = {country: idx for idx, country in enumerate(blanks_country_cols)}
+    max_country_series = df["Max_Percentage_Country"].fillna("")
+    valid_country_mask = max_country_series.isin(country_to_idx)
+
+    row_indices = np.flatnonzero(valid_country_mask.to_numpy())
+    col_indices = (
+        max_country_series[valid_country_mask]
+        .map(country_to_idx)
+        .astype(int)
+        .to_numpy()
+    )
+    values_matrix = numeric_values.to_numpy()
+    selected_values = values_matrix[row_indices, col_indices] if len(row_indices) else np.array([])
+
+    important_df = pd.DataFrame({
+        "country": max_country_series[valid_country_mask].to_numpy(),
+        "species": df.loc[valid_country_mask, "Species"].fillna("").to_numpy(),
+        "value": selected_values,
+    })
+    important_df = important_df.sort_values(
+        by=["country", "value", "species"],
+        ascending=[True, False, True],
+    )
+
+    blancks_par_pays = {
+        country: [
+            {"species": row.species, "value": float(row.value)}
+            for row in group.itertuples(index=False)
+        ]
+        for country, group in important_df.groupby("country", sort=True)
+    }
+
+    species_min = min((row["Total_Species"] for row in liste_pays_records), default=0)
+    species_max = max((row["Total_Species"] for row in liste_pays_records), default=0)
+
+    return {
+        "liste_blanks_records": filtered_blanks,
+        "liste_pays_records": liste_pays_records,
+        "continents_records": continents_records,
+        "pays_list": sorted(blancks_par_pays.keys()),
+        "blanks_country_cols": blanks_country_cols,
+        "blancks_par_pays": blancks_par_pays,
+        "pays_stats": pays_stats,
+        "country_continents": country_continents,
+        "species_min": species_min,
+        "species_max": species_max,
+    }
 
 
 def compute_liste_blanks_world_classified(dv_df: pd.DataFrame, threshold: float = 0.0009) -> pd.DataFrame:

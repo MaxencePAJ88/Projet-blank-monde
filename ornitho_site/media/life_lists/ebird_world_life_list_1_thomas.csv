@@ -1,0 +1,435 @@
+Row #,Taxon Order,Category,Common Name,Scientific Name,Count,Location,S/P,Date,LocID,SubID,Exotic,Countable
+1,512,species,Eurasian Wigeon,Mareca penelope,1,RNF de la Baie-de-L’Isle-Verte--secteur du Marais-de-Gros-Cacouna,CA-QC,03 Jul 2026,L610533,S367239669,,1
+2,6147,species,Willet,Tringa semipalmata,1,Parc de l'Ancien-Quai,CA-QC,19 Jun 2026,L3048781,S360314010,,1
+3,28037,species,Brown Thrasher,Toxostoma rufum,3,Parc de l'Ancien-Quai,CA-QC,17 Jun 2026,L3048781,S359140527,,1
+4,34006,species,Mourning Warbler,Geothlypis philadelphia,1,"Saint-André-de-Kamouraska, MF17 (47.6488,-69.7345)",CA-QC,16 Jun 2026,L70367782,S358853052,,1
+5,33232,species,Nelson's Sparrow,Ammospiza nelsoni,1,"111–147 Rte 132 O, Saint-André-de-Kamouraska CA-QC (47.6526,-69.7461)",CA-QC,15 Jun 2026,L70270723,S358021771,,1
+6,33564,species,Bobolink,Dolichonyx oryzivorus,4,"185 Québec 132, Saint-Simon-de-Rimouski, Québec, CA (48.194, -69.069)",CA-QC,04 Jun 2026,L68962284,S352337438,,1
+7,16949,species,Yellow-bellied Flycatcher,Empidonax flaviventris,1,Parc du Mont-Royal,CA-QC,19 May 2026,L453505,S342401478,,1
+8,3243,species,Black-billed Cuckoo,Coccyzus erythropthalmus,1,Parc du Mont-Royal,CA-QC,19 May 2026,L453505,S342401478,,1
+9,34057,species,Hooded Warbler,Setophaga citrina,1,Cimetières Mont-Royal et Notre-Dame-des-Neiges,CA-QC,16 May 2026,L806691,S341812519,,1
+10,24106,species,Northern Rough-winged Swallow,Stelgidopteryx serripennis,1,"Arboretum, Parcs de la Frayère et des Voiles",CA-QC,13 May 2026,L320417,S338432304,,1
+13,311,species,Pink-footed Goose,Anser brachyrhynchus,1,Pointe-aux-Anglais (cté Rimouski-Neigette),CA-QC,02 May 2026,L3044878,S331323076,,1
+14,306,species,Tundra Bean-Goose,Anser serrirostris,1,Pointe-aux-Anglais (cté Rimouski-Neigette),CA-QC,02 May 2026,L3044878,S331323076,,1
+15,287,species,Greater White-fronted Goose,Anser albifrons,3,Pointe-aux-Anglais (cté Rimouski-Neigette),CA-QC,02 May 2026,L3044878,S331323076,,1
+16,7560,species,American Bittern,Botaurus lentiginosus,1,PN du Bic--tourbière,CA-QC,02 May 2026,L4638827,S331461667,,1
+17,8866,species,Eastern Screech-Owl,Megascops asio,1,Parc Angrignon,CA-QC,23 Apr 2026,L2468319,S326198961,,1
+18,6064,species,American Woodcock,Scolopax minor,1,Marais Ipex (accès restreint),CA-QC,14 Apr 2026,L9035492,S321628637,,1
+19,33099,species,Fox Sparrow,Passerella iliaca,1,Jardin botanique de Montréal (accès restreint),CA-QC,08 Apr 2026,L165056,S318941636,,1
+20,13785,species,Banded Antbird,Dichrozona cincta,1,Wasai Tambopata,PE-MDD,15 Mar 2026,L4167007,S315572802,,1
+21,13687,species,White-eyed Stipplethroat,Epinecrophylla leucophthalma,1,Wasai Tambopata,PE-MDD,14 Mar 2026,L4167007,S315572918,,1
+22,6902,species,Sunbittern,Eurypyga helias,1,Wasai Tambopata,PE-MDD,14 Mar 2026,L4167007,S315572918,,1
+23,11957,species,Lined Forest-Falcon,Micrastur gilvicollis,1,Wasai Tambopata,PE-MDD,12 Mar 2026,L4167007,S315573029,,1
+24,8879,species,Tawny-bellied Screech-Owl,Megascops watsonii,1,Wasai Tambopata,PE-MDD,12 Mar 2026,L4167007,S315573133,,1
+25,15273,species,Olive-backed Foliage-gleaner,Automolus infuscatus,1,Wasai Tambopata,PE-MDD,12 Mar 2026,L4167007,S315573242,,1
+26,4320,species,Reddish Hermit,Phaethornis ruber,1,Wasai Tambopata,PE-MDD,12 Mar 2026,L4167007,S315573242,,1
+27,13063,species,Black-capped Parakeet,Pyrrhura rupicola,5,Secret Forest Lodge,PE-MDD,10 Mar 2026,L6771781,S315573351,,1
+28,7809,species,King Vulture,Sarcoramphus papa,2,Wasai Tambopata,PE-MDD,10 Mar 2026,L4167007,S315573461,,1
+29,14467,species,Rufous-capped Antthrush,Formicarius colma,1,Wasai Tambopata,PE-MDD,08 Mar 2026,L4167007,S307377138,,1
+30,10417,species,Semicollared Puffbird,Malacoptila semicincta,1,Wasai Tambopata,PE-MDD,08 Mar 2026,L4167007,S307377138,,1
+31,14126,species,Black-spotted Bare-eye,Phlegopsis nigromaculata,1,Wasai Tambopata,PE-MDD,07 Mar 2026,L4167007,S306985099,,1
+32,33069,species,Pectoral Sparrow,Arremon taciturnus,1,Wasai Tambopata,PE-MDD,06 Mar 2026,L4167007,S306596667,,1
+33,13611,species,Black Bushbird,Neoctantes niger,1,Wasai Tambopata,PE-MDD,06 Mar 2026,L4167007,S306596667,,1
+34,34436,species,Scarlet Tanager,Piranga olivacea,1,Secret Forest Lodge,PE-MDD,05 Mar 2026,L6771781,S306259371,,1
+35,3746,species,Great Potoo,Nyctibius grandis,1,Secret Forest Lodge,PE-MDD,03 Mar 2026,L6771781,S305738091,,1
+36,16048,species,White-winged Becard,Pachyramphus polychopterus,1,Secret Forest Lodge,PE-MDD,03 Mar 2026,L6771781,S305552568,,1
+38,14051,species,Goeldi's Antbird,Akletos goeldii,1,Secret Forest Lodge,PE-MDD,03 Mar 2026,L6771781,S305552568,,1
+39,13882,species,Peruvian Warbling-Antbird,Hypocnemis peruviana,1,Secret Forest Lodge,PE-MDD,03 Mar 2026,L6771781,S305552568,,1
+40,11965,species,Red-throated Caracara,Ibycter americanus,5,Secret Forest Lodge,PE-MDD,03 Mar 2026,L6771781,S305552568,,1
+42,9891,species,Broad-billed Motmot,Electron platyrhynchum,1,Secret Forest Lodge,PE-MDD,03 Mar 2026,L6771781,S305552568,,1
+44,16214,species,Ochre-bellied Flycatcher,Mionectes oleagineus,2,Wasai Tambopata,PE-MDD,02 Mar 2026,L4167007,S305875716,,1
+45,9168,species,Black-banded Owl,Strix huhula,1,Secret Forest Lodge,PE-MDD,01 Mar 2026,L6771781,S305637817,,1
+46,17494,species,Fork-tailed Flycatcher,Tyrannus savana,9,Secret Forest Lodge,PE-MDD,01 Mar 2026,L6771781,S305143752,,1
+48,15136,species,Rufous-rumped Foliage-gleaner,Neophilydor erythrocercum,1,Secret Forest Lodge,PE-MDD,26 Feb 2026,L6771781,S304032026,,1
+49,11969,species,Black Caracara,Daptrius ater,1,Secret Forest Lodge,PE-MDD,26 Feb 2026,L6771781,S304032026,,1
+50,9552,species,Blue-crowned Trogon,Trogon curucui,1,Secret Forest Lodge,PE-MDD,26 Feb 2026,L6771781,S304032026,,1
+51,3843,species,White-collared Swift,Streptoprocne zonaris,4,Secret Forest Lodge,PE-MDD,26 Feb 2026,L6771781,S304032026,,1
+52,2268,species,Ruddy Ground Dove,Columbina talpacoti,2,Secret Forest Lodge,PE-MDD,26 Feb 2026,L6771781,S304032026,,1
+53,17452,species,Tropical Kingbird,Tyrannus melancholicus,1,Chuncho Lodge,PE-MDD,24 Feb 2026,L4619893,S303571577,,1
+54,15958,species,Black-tailed Tityra,Tityra cayana,2,Chuncho Lodge--Tower,PE-MDD,24 Feb 2026,L25843053,S303570865,,1
+55,15948,species,Purple-throated Cotinga,Porphyrolaema porphyrolaema,2,Chuncho Lodge--Tower,PE-MDD,24 Feb 2026,L25843053,S303570865,,1
+57,13006,species,White-bellied Parrot,Pionites leucogaster,16,Chuncho Lodge--Tower,PE-MDD,24 Feb 2026,L25843053,S303570865,,1
+58,11962,species,Crested Caracara,Caracara plancus,1,Chuncho Lodge--Tower,PE-MDD,24 Feb 2026,L25843053,S303570865,,1
+59,11558,species,Crimson-crested Woodpecker,Campephilus melanoleucos,2,Chuncho Lodge--Tower,PE-MDD,24 Feb 2026,L25843053,S303570865,,1
+61,865,species,Blue-throated Piping-Guan,Pipile cumanensis,1,Chuncho Lodge--Tower,PE-MDD,24 Feb 2026,L25843053,S303570865,,1
+62,4269,species,Needle-billed Hermit,Phaethornis philippii,1,"Madre de Dios, PE (-12.85, -69.476)",PE-MDD,23 Feb 2026,L59080779,S303300934,,1
+63,16442,species,Yellow-browed Tody-Flycatcher,Todirostrum chrysocrotaphum,1,Wasai Tambopata,PE-MDD,22 Feb 2026,L4167007,S304032364,,1
+64,9037,species,Ferruginous Pygmy-Owl,Glaucidium brasilianum,1,Secret Forest Lodge,PE-MDD,21 Feb 2026,L6771781,S302609749,,1
+65,13140,species,Blue-and-yellow Macaw,Ara ararauna,4,Secret Forest Lodge,PE-MDD,20 Feb 2026,L6771781,S302854143,,1
+66,13136,species,Red-bellied Macaw,Orthopsittaca manilatus,2,Secret Forest Lodge,PE-MDD,20 Feb 2026,L6771781,S302854143,,1
+67,27209,species,Southern House Wren,Troglodytes musculus,1,Secret Forest Lodge,PE-MDD,20 Feb 2026,L6771781,S302854493,,1
+69,7625,species,Capped Heron,Pilherodius pileatus,1,Secret Forest Lodge,PE-MDD,19 Feb 2026,L6771781,S302854704,,1
+70,13584,species,White-shouldered Antshrike,Thamnophilus aethiops,1,Wasai Tambopata,PE-MDD,19 Feb 2026,L4167007,S302256797,,1
+71,11819,species,Chestnut Woodpecker,Celeus elegans,1,Wasai Tambopata,PE-MDD,19 Feb 2026,L4167007,S302256797,,1
+72,21231,species,Purplish Jay,Cyanocorax cyanomelas,2,Secret Forest Lodge,PE-MDD,18 Feb 2026,L6771781,S302064689,,1
+73,3026,species,Smooth-billed Ani,Crotophaga ani,5,Secret Forest Lodge,PE-MDD,18 Feb 2026,L6771781,S302064689,,1
+74,14979,species,Amazonian Plain-Xenops,Xenops genibarbis,1,Wasai Tambopata,PE-MDD,18 Feb 2026,L4167007,S302256991,,1
+75,9870,species,Amazonian Motmot,Momotus momota,2,Wasai Tambopata,PE-MDD,18 Feb 2026,L4167007,S302256991,,1
+76,4242,species,Rufous-breasted Hermit,Glaucis hirsutus,1,Wasai Tambopata,PE-MDD,18 Feb 2026,L4167007,S302256991,,1
+77,13540,species,Plain-winged Antshrike,Thamnophilus schistaceus,1,"Madre de Dios, PE (-12.841, -69.474)",PE-MDD,17 Feb 2026,L58478659,S302257205,,1
+78,33663,species,Casqued Cacique,Cacicus oseryi,2,Secret Forest Lodge,PE-MDD,16 Feb 2026,L6771781,S301804595,,1
+79,33624,species,Crested Oropendola,Psarocolius decumanus,2,Secret Forest Lodge,PE-MDD,16 Feb 2026,L6771781,S301804595,,1
+80,17392,species,Social Flycatcher,Myiozetetes similis,2,Secret Forest Lodge,PE-MDD,16 Feb 2026,L6771781,S301804595,,1
+81,17387,species,Rusty-margined Flycatcher,Myiozetetes cayanensis,2,Secret Forest Lodge,PE-MDD,16 Feb 2026,L6771781,S301804595,,1
+82,15844,species,Round-tailed Manakin,Ceratopipra chloromeros,2,Wasai Tambopata,PE-MDD,15 Feb 2026,L4167007,S301068212,,1
+83,13773,species,Gray Antwren,Myrmotherula menetriesii,1,Wasai Tambopata,PE-MDD,15 Feb 2026,L4167007,S301068212,,1
+84,10313,species,American Pygmy Kingfisher,Chloroceryle aenea,2,Wasai Tambopata,PE-MDD,15 Feb 2026,L4167007,S301068212,,1
+85,9883,species,Rufous Motmot,Baryphthengus martii,1,Wasai Tambopata,PE-MDD,15 Feb 2026,L4167007,S301068212,,1
+86,9157,species,Mottled Owl,Strix virgata,2,"Inca, Madre de Dios, PE (-12.853, -69.474)",PE-MDD,14 Feb 2026,L58164524,S301068424,,1
+87,35510,species,Blue-black Grassquit,Volatinia jacarina,1,"Madre de Dios, PE (-12.841, -69.474)",PE-MDD,13 Feb 2026,L58478659,S300186527,,1
+88,14664,species,Plain-brown Woodcreeper,Dendrocincla fuliginosa,1,"Madre de Dios, PE (-12.841, -69.474)",PE-MDD,13 Feb 2026,L58478659,S300186527,,1
+89,13984,species,Silvered Antbird,Sclateria naevia,1,"Madre de Dios, PE (-12.841, -69.474)",PE-MDD,13 Feb 2026,L58478659,S300186527,,1
+90,14613,species,Olivaceous Woodcreeper,Sittasomus griseicapillus,1,Wasai Tambopata,PE-MDD,12 Feb 2026,L4167007,S299781778,,1
+91,14114,species,Common Scale-backed Antbird,Willisornis poecilinotus,1,Wasai Tambopata,PE-MDD,12 Feb 2026,L4167007,S299781778,,1
+92,14091,species,White-throated Antbird,Oneillornis salvini,1,Wasai Tambopata,PE-MDD,12 Feb 2026,L4167007,S299781778,,1
+93,13731,species,White-flanked Antwren,Myrmotherula axillaris,4,Wasai Tambopata,PE-MDD,12 Feb 2026,L4167007,S299781778,,1
+94,140,species,Gray Tinamou,Tinamus tao,1,Wasai Tambopata,PE-MDD,12 Feb 2026,L4167007,S299781778,,1
+95,11507,species,Red-stained Woodpecker,Veniliornis affinis,1,Secret Forest Lodge,PE-MDD,11 Feb 2026,L6771781,S299841851,,1
+96,3218,species,Common Squirrel-Cuckoo,Piaya cayana,1,Secret Forest Lodge,PE-MDD,11 Feb 2026,L6771781,S299598394,,1
+97,17407,species,Dusky-chested Flycatcher,Myiozetetes luteiventris,1,Secret Forest Lodge,PE-MDD,10 Feb 2026,L6771781,S299598334,,1
+98,11943,species,Collared Forest-Falcon,Micrastur semitorquatus,1,Secret Forest Lodge,PE-MDD,10 Feb 2026,L6771781,S299598334,,1
+100,14637,species,Mournful Long-tailed Woodcreeper,Deconychura pallida,1,Wasai Tambopata,PE-MDD,10 Feb 2026,L4167007,S299597217,,1
+101,10322,species,Green-and-rufous Kingfisher,Chloroceryle inda,1,Wasai Tambopata,PE-MDD,10 Feb 2026,L4167007,S299597217,,1
+102,16290,species,Ringed Antpipit,Corythopis torquatus,1,Wasai Tambopata,PE-MDD,09 Feb 2026,L4167007,S299213538,,1
+103,15933,species,Screaming Piha,Lipaugus vociferans,1,Wasai Tambopata,PE-MDD,09 Feb 2026,L4167007,S299213538,,1
+104,15259,species,Ochre-throated Foliage-gleaner,Automolus ochrolaemus,1,Wasai Tambopata,PE-MDD,09 Feb 2026,L4167007,S299213538,,1
+105,14553,species,Black-tailed Leaftosser,Sclerurus caudacutus,2,Wasai Tambopata,PE-MDD,09 Feb 2026,L4167007,S299213538,,1
+106,13977,species,Band-tailed Antbird,Hypocnemoides maculicauda,1,Wasai Tambopata,PE-MDD,09 Feb 2026,L4167007,S299213538,,1
+107,13964,species,Black-faced Antbird,Myrmoborus myotherinus,1,Wasai Tambopata,PE-MDD,09 Feb 2026,L4167007,S299213538,,1
+108,13680,species,Spot-winged Antshrike,Pygiptila stellaris,1,Wasai Tambopata,PE-MDD,09 Feb 2026,L4167007,S299213538,,1
+109,5682,species,Pale-winged Trumpeter,Psophia leucoptera,1,Wasai Tambopata,PE-MDD,09 Feb 2026,L4167007,S299213538,,1
+110,35021,species,Masked Tanager,Stilpnia nigrocincta,1,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+111,32019,species,Golden-bellied Euphonia,Euphonia chrysopasta,1,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+112,17438,species,Sulphur-bellied Flycatcher,Myiodynastes luteiventris,1,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+113,16654,species,Forest Elaenia,Myiopagis gaimardii,1,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+115,13152,species,Scarlet Macaw,Ara macao,2,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+116,13142,species,Chestnut-fronted Macaw,Ara severus,1,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+117,12839,species,Cobalt-winged Parakeet,Brotogeris cyanoptera,30,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+118,10817,species,Scarlet-hooded Barbet,Eubucco tucinkae,1,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+119,10810,species,Lemon-throated Barbet,Eubucco richardsoni,1,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+120,10512,species,Bluish-fronted Jacamar,Galbula cyanescens,1,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+122,4725,species,Long-billed Starthroat,Heliomaster longirostris,2,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+123,2360,species,Gray-fronted Dove,Leptotila rufaxilla,1,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+124,1940,species,Pale-vented Pigeon,Patagioenas cayennensis,5,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,1
+125,17403,species,Gray-capped Flycatcher,Myiozetetes granadensis,1,Secret Forest Lodge,PE-MDD,07 Feb 2026,L6771781,S298614888,,1
+126,15955,species,Bare-necked Fruitcrow,Gymnoderus foetidus,1,Secret Forest Lodge,PE-MDD,07 Feb 2026,L6771781,S298614888,,1
+127,14062,species,Black-throated Antbird,Myrmophylax atrothorax,1,Secret Forest Lodge,PE-MDD,07 Feb 2026,L6771781,S298614888,,1
+128,12960,species,Mealy Amazon,Amazona farinosa,2,Secret Forest Lodge,PE-MDD,07 Feb 2026,L6771781,S298614888,,1
+129,8430,species,Roadside Hawk,Rupornis magnirostris,1,Secret Forest Lodge,PE-MDD,07 Feb 2026,L6771781,S298614888,,1
+130,16182,species,Golden-crowned Spadebill,Platyrinchus coronatus,1,Wasai Tambopata,PE-MDD,06 Feb 2026,L4167007,S298594867,,1
+131,15798,species,Band-tailed Manakin,Pipra fasciicauda,1,Wasai Tambopata,PE-MDD,06 Feb 2026,L4167007,S298594867,,1
+132,14814,species,Elegant Woodcreeper,Xiphorhynchus elegans,1,Wasai Tambopata,PE-MDD,06 Feb 2026,L4167007,S298594867,,1
+133,13749,species,Long-winged Antwren,Myrmotherula longipennis,1,Wasai Tambopata,PE-MDD,06 Feb 2026,L4167007,S298594867,,1
+134,13657,species,Dusky-throated Antshrike,Thamnomanes ardesiacus,1,Wasai Tambopata,PE-MDD,06 Feb 2026,L4167007,S298594867,,1
+135,10461,species,White-fronted Nunbird,Monasa morphoeus,1,Wasai Tambopata,PE-MDD,06 Feb 2026,L4167007,S298594867,,1
+136,151,species,Cinereous Tinamou,Crypturellus cinereus,1,"Inca, Madre de Dios, PE (-12.853, -69.474)",PE-MDD,05 Feb 2026,L58164524,S298594512,,1
+137,24127,species,White-banded Swallow,Atticora fasciata,1,"Madre de Dios, PE (-12.858, -69.483)",PE-MDD,05 Feb 2026,L58088256,S298248413,,1
+138,33635,species,Olive Oropendola,Psarocolius bifasciatus,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+139,28735,species,White-necked Thrush,Turdus albicollis,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+140,27162,species,Scaly-breasted Wren,Microcerculus marginatus,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+141,21228,species,Violaceous Jay,Cyanocorax violaceus,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+142,16653,species,Yellow-crowned Tyrannulet,Tyrannulus elatus,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+143,15910,species,Purple-throated Fruitcrow,Querula purpurata,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+144,14645,species,White-chinned Woodcreeper,Dendrocincla merula,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+145,14537,species,South American Leaftosser,Sclerurus obscurior,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+146,13715,species,Pygmy Antwren,Myrmotherula brachyura,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+147,12889,species,Blue-headed Parrot,Pionus menstruus,,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+148,11553,species,Red-necked Woodpecker,Campephilus rubricollis,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+149,10931,species,White-throated Toucan,Ramphastos tucanus,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+150,10800,species,Gilded Barbet,Capito auratus,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+151,2314,species,Ruddy Quail-Dove,Geotrygon montana,1,Wasai Tambopata,PE-MDD,05 Feb 2026,L4167007,S298248179,,1
+152,33613,species,Russet-backed Oropendola,Psarocolius angustifrons,1,Secret Forest Lodge,PE-MDD,04 Feb 2026,L6771781,S298248655,,1
+153,32960,species,Yellow-browed Sparrow,Ammodramus aurifrons,1,Secret Forest Lodge,PE-MDD,04 Feb 2026,L6771781,S298248655,,1
+154,24066,species,White-winged Swallow,Tachycineta albiventer,6,Secret Forest Lodge,PE-MDD,04 Feb 2026,L6771781,S298248655,,1
+155,17368,species,Great Kiskadee,Pitangus sulphuratus,1,Secret Forest Lodge,PE-MDD,04 Feb 2026,L6771781,S298248655,,1
+156,11754,species,Lineated Woodpecker,Dryocopus lineatus,1,Secret Forest Lodge,PE-MDD,04 Feb 2026,L6771781,S298248655,,1
+157,189,species,Undulated Tinamou,Crypturellus undulatus,2,Secret Forest Lodge,PE-MDD,04 Feb 2026,L6771781,S298248655,,1
+158,9034,species,Amazonian Pygmy-Owl,Glaucidium hardyi,2,"Madre de Dios, PE (-12.856, -69.493)",PE-MDD,03 Feb 2026,L58036036,S298021931,,1
+159,34933,species,Blue-gray Tanager,Thraupis episcopus,2,Secret Forest Lodge,PE-MDD,03 Feb 2026,L6771781,S297942018,,1
+160,34810,species,Silver-beaked Tanager,Ramphocelus carbo,3,Secret Forest Lodge,PE-MDD,03 Feb 2026,L6771781,S297942018,,1
+161,28702,species,Black-billed Thrush,Turdus ignobilis,1,Secret Forest Lodge,PE-MDD,03 Feb 2026,L6771781,S297942018,,1
+162,14832,species,Buff-throated Woodcreeper,Xiphorhynchus guttatus,1,Secret Forest Lodge,PE-MDD,03 Feb 2026,L6771781,S297942018,,1
+163,13954,species,White-browed Antbird,Myrmoborus leucophrys,1,Secret Forest Lodge,PE-MDD,03 Feb 2026,L6771781,S297942018,,1
+164,13157,species,Red-and-green Macaw,Ara chloropterus,2,Secret Forest Lodge,PE-MDD,03 Feb 2026,L6771781,S297942018,,1
+165,34957,species,Palm Tanager,Thraupis palmarum,2,Wasai Tambopata,PE-MDD,03 Feb 2026,L4167007,S297878645,,1
+166,34459,species,Red-crowned Ant-Tanager,Habia rubica,1,Wasai Tambopata,PE-MDD,03 Feb 2026,L4167007,S297867778,,1
+167,27639,species,Musician Wren,Cyphorhinus arada,1,Wasai Tambopata,PE-MDD,03 Feb 2026,L4167007,S297867778,,1
+168,16003,species,Cinereous Mourner,Laniocera hypopyrra,1,Wasai Tambopata,PE-MDD,03 Feb 2026,L4167007,S297867778,,1
+169,14683,species,Wedge-billed Woodcreeper,Glyphorynchus spirurus,1,Wasai Tambopata,PE-MDD,03 Feb 2026,L4167007,S297867778,,1
+170,14477,species,Black-faced Antthrush,Formicarius analis,1,Wasai Tambopata,PE-MDD,03 Feb 2026,L4167007,S297867778,,1
+171,13675,species,Plain-throated Antwren,Isleria hauxwelli,1,Wasai Tambopata,PE-MDD,03 Feb 2026,L4167007,S297867778,,1
+172,4990,species,Fork-tailed Woodnymph,Thalurania furcata,1,Wasai Tambopata,PE-MDD,03 Feb 2026,L4167007,S297867778,,1
+173,4258,species,White-bearded Hermit,Phaethornis hispidus,2,Wasai Tambopata,PE-MDD,03 Feb 2026,L4167007,S297867778,,1
+174,1980,species,Plumbeous Pigeon,Patagioenas plumbea,1,Wasai Tambopata,PE-MDD,03 Feb 2026,L4167007,S297867778,,1
+175,8897,species,Spectacled Owl,Pulsatrix perspicillata,2,Secret Forest Lodge,PE-MDD,02 Feb 2026,L6771781,S297805118,,1
+176,9579,species,Collared Trogon,Trogon collaris,1,"Madre de Dios, PE (-12.85, -69.472)",PE-MDD,02 Feb 2026,L58005677,S297880446,,1
+177,8892,species,Crested Owl,Lophostrix cristata,1,"Madre de Dios, PE (-12.85, -69.472)",PE-MDD,02 Feb 2026,L58005677,S297880446,,1
+178,33660,species,Red-rumped Cacique,Cacicus haemorrhous,20,Secret Forest Lodge,PE-MDD,02 Feb 2026,L6771781,S297777021,,1
+179,33649,species,Yellow-rumped Cacique,Cacicus cela,3,Secret Forest Lodge,PE-MDD,02 Feb 2026,L6771781,S297777021,,1
+180,17379,species,Boat-billed Flycatcher,Megarynchus pitangua,2,Secret Forest Lodge,PE-MDD,02 Feb 2026,L6771781,S297777021,,1
+181,13127,species,Dusky-headed Parakeet,Aratinga weddellii,15,Secret Forest Lodge,PE-MDD,02 Feb 2026,L6771781,S297777021,,1
+182,11156,species,Yellow-tufted Woodpecker,Melanerpes cruentatus,2,Secret Forest Lodge,PE-MDD,02 Feb 2026,L6771781,S297777021,,1
+183,10458,species,Black-fronted Nunbird,Monasa nigrifrons,1,Secret Forest Lodge,PE-MDD,02 Feb 2026,L6771781,S297777021,,1
+184,7826,species,Greater Yellow-headed Vulture,Cathartes melambrotus,1,Secret Forest Lodge,PE-MDD,02 Feb 2026,L6771781,S297777021,,1
+185,7811,species,Black Vulture,Coragyps atratus,1,Secret Forest Lodge,PE-MDD,02 Feb 2026,L6771781,S297777021,,1
+186,11199,species,Red-bellied Woodpecker,Melanerpes carolinus,1,RN de Pointe-Yamachiche,CA-QC,04 Jan 2026,L340284,S292502249,,1
+187,9243,species,Great Gray Owl,Strix nebulosa,2,RN de Pointe-Yamachiche,CA-QC,04 Jan 2026,L340284,S292502249,,1
+188,33095,species,American Tree Sparrow,Spizelloides arborea,1,Technoparc Montréal (zone générale),CA-QC,02 Jan 2026,L4886900,S292816728,,1
+189,1274,species,Wild Turkey,Meleagris gallopavo,1,Technoparc Montréal (zone générale),CA-QC,02 Jan 2026,L4886900,S292816728,N,1
+190,8910,species,Great Horned Owl,Bubo virginianus,1,Parc du Mont-Royal,CA-QC,31 Dec 2025,L453505,S291679504,,1
+192,7462,species,White Ibis,Eudocimus albus,1,Promenade de la Mer,CA-QC,30 Oct 2025,L9726340,S282102292,,1
+193,5468,species,Common Gallinule,Gallinula galeata,1,"Rte Janelle, Baie-du-Febvre (station d'épuration, étangs et route)",CA-QC,27 Oct 2025,L1020630,S281822471,,1
+194,33848,species,Rusty Blackbird,Euphagus carolinus,2,Lac Neuf,CA-QC,28 Sep 2025,L16005020,S276332486,,1
+195,6455,species,Sabine's Gull,Xema sabini,1,Traversier Trois-Pistoles–Les Escoumins--moitié sud (>3 km au large),CA-QC,19 Sep 2025,L783195,S274813962,,1
+196,6358,species,Long-tailed Jaeger,Stercorarius longicaudus,1,Traversier Trois-Pistoles–Les Escoumins--moitié sud (>3 km au large),CA-QC,19 Sep 2025,L783195,S274813962,,1
+199,3492,species,Common Nighthawk,Chordeiles minor,2,Kiboikoi,CA-QC,20 Aug 2025,L51803832,S268500556,,1
+200,34344,species,Canada Warbler,Cardellina canadensis,2,PN du Fjord-du-Saguenay--Lac de l'Anse à l'Eau,CA-QC,10 Aug 2025,L2726528,S266458107,,1
+201,16951,species,Alder Flycatcher,Empidonax alnorum,1,PN du Fjord-du-Saguenay--Lac de l'Anse à l'Eau,CA-QC,10 Aug 2025,L2726528,S266458107,,1
+203,24281,species,Cliff Swallow,Petrochelidon pyrrhonota,2,Pointe de la Croix,CA-QC,03 Jun 2025,L2346119,S246647329,,1
+204,6733,species,Arctic Tern,Sterna paradisaea,9,Traversier Trois-Pistoles–Les Escoumins--moitié sud (>3 km au large),CA-QC,31 May 2025,L783195,S245340339,,1
+205,28114,species,Northern Mockingbird,Mimus polyglottos,1,"Halte municipale, St-Simon-sur-Mer",CA-QC,23 May 2025,L2530185,S241615392,,1
+206,34141,species,Black-throated Blue Warbler,Setophaga caerulescens,5,Club Mouski,CA-QC,21 May 2025,L5698250,S241264338,,1
+207,34138,species,Blackpoll Warbler,Setophaga striata,1,Club Mouski,CA-QC,21 May 2025,L5698250,S241264338,,1
+208,33946,species,Ovenbird,Seiurus aurocapilla,12,Club Mouski,CA-QC,21 May 2025,L5698250,S241264338,,1
+209,28313,species,Veery,Catharus fuscescens,3,Club Mouski,CA-QC,21 May 2025,L5698250,S241264338,,1
+210,24051,species,Bank Swallow,Riparia riparia,2,Club Mouski,CA-QC,21 May 2025,L5698250,S241264338,,1
+212,34153,species,Pine Warbler,Setophaga pinus,1,Village des Sources,CA-QC,10 May 2025,L2190627,S235748970,,1
+213,6855,species,Pied-billed Grebe,Podilymbus podiceps,1,Village des Sources,CA-QC,10 May 2025,L2190627,S235748970,,1
+216,24187,species,Barn Swallow,Hirundo rustica,4,"670 4e Rang Ouest, Saint-Valã©Rien, Québec, CA (48.32, -68.7)",CA-QC,05 May 2025,L44250436,S233790723,,1
+220,8528,species,Rough-legged Hawk,Buteo lagopus,3,PN du Bic--Belvédère Raoul-Roy,CA-QC,25 Apr 2025,L1353114,S229412935,,1
+221,8064,species,Golden Eagle,Aquila chrysaetos,1,PN du Bic--Belvédère Raoul-Roy,CA-QC,25 Apr 2025,L1353114,S229412935,,1
+225,9276,species,Short-eared Owl,Asio flammeus,1,Boisé de l'Eurêka,CA-QC,16 Mar 2025,L8143532,S218890664,,1
+228,33833,species,Brown-headed Cowbird,Molothrus ater,1,Bord du fleuve/Chemin du golf,CA-QC,17 Dec 2024,L18782795,S205844168,,1
+229,8909,species,Snowy Owl,Bubo scandiacus,1,"577–623 Ch du Panorama, Rimouski CA-QC 48.39740, -68.52579",CA-QC,14 Dec 2024,L38615974,S205844169,,1
+230,314,species,Brant,Branta bernicla,1,"Quai, Pointe-au-Père",CA-QC,03 Nov 2024,L2751569,S201275498,,1
+231,32085,species,Evening Grosbeak,Hesperiphona vespertina,4,Rocher Blanc,CA-QC,22 Oct 2024,L4651659,S199874378,,1
+232,31534,species,House Sparrow,Passer domesticus,5,"Quai, Pointe-au-Père",CA-QC,20 Oct 2024,L2751569,S199881502,N,1
+233,32324,species,Purple Finch,Haemorhous purpureus,7,Rocher Blanc,CA-QC,18 Oct 2024,L4651659,S199397628,,1
+234,21181,species,Canada Jay,Perisoreus canadensis,4,"Seigneurie Nicolas-Rioux, Saint-Valérien",CA-QC,08 Oct 2024,L37162196,S198013536,,1
+235,6424,species,Common Murre,Uria aalge,1,"Quai, Pointe-au-Père",CA-QC,04 Oct 2024,L2751569,S197504538,,1
+236,505,species,Gadwall,Mareca strepera,4,"Station d'épuration, Rimouski",CA-QC,28 Sep 2024,L3595741,S196883897,,1
+237,485,species,Blue-winged Teal,Spatula discors,5,"Station d'épuration, Rimouski",CA-QC,28 Sep 2024,L3595741,S196883897,,1
+238,7220,species,Manx Shearwater,Puffinus puffinus,1,"Quai, Pointe-au-Père",CA-QC,27 Sep 2024,L2751569,S196641943,,1
+239,3238,species,Yellow-billed Cuckoo,Coccyzus americanus,2,Pointe des Fortin,CA-QC,22 Sep 2024,L1440725,S196203791,,1
+240,33981,species,Nashville Warbler,Leiothlypis ruficapilla,1,Pointe à John (utilisez un site plus précis),CA-QC,21 Sep 2024,L1022951,S196203775,,1
+241,11216,species,American Three-toed Woodpecker,Picoides dorsalis,1,Parc Nature de Pointe-aux-Outardes,CA-QC,20 Sep 2024,L899175,S195821988,,1
+242,5697,species,Sandhill Crane,Antigone canadensis,1,Parc Nature de Pointe-aux-Outardes,CA-QC,20 Sep 2024,L899175,S195821988,,1
+243,501,species,Northern Shoveler,Spatula clypeata,2,Parc Nature de Pointe-aux-Outardes,CA-QC,20 Sep 2024,L899175,S196203809,,1
+244,6104,species,Wilson's Snipe,Gallinago delicata,1,Parc Nature de Pointe-aux-Outardes,CA-QC,19 Sep 2024,L899175,S196203805,,1
+245,1283,species,Ruffed Grouse,Bonasa umbellus,1,"Plage, Pointe-Lebel CA-QC 49.09973, -68.20085",CA-QC,19 Sep 2024,L36720494,S196203800,,1
+246,11220,species,Black-backed Woodpecker,Picoides arcticus,1,Belvédère de l'Anse-St-Pancrace,CA-QC,19 Sep 2024,L16525170,S196203797,,1
+248,19244,species,Philadelphia Vireo,Vireo philadelphicus,1,"Sentier forestier, Nord des étangs d’épuration Rimouski 48.47859, -68.49025",CA-QC,14 Sep 2024,L27319850,S195116994,,1
+249,6129,species,Solitary Sandpiper,Tringa solitaria,2,Sentier du littoral et marais de Sacré-Cœur,CA-QC,13 Sep 2024,L8010925,S194949698,,1
+250,6227,species,Pectoral Sandpiper,Calidris melanotos,2,"Quai, Pointe-au-Père",CA-QC,13 Sep 2024,L2751569,S195003265,,1
+251,34557,species,Rose-breasted Grosbeak,Pheucticus ludovicianus,4,"Station d'épuration, Rimouski",CA-QC,11 Sep 2024,L3595741,S194768065,,1
+252,34063,species,Northern Parula,Setophaga americana,1,"Station d'épuration, Rimouski",CA-QC,11 Sep 2024,L3595741,S194768065,,1
+253,33972,species,Tennessee Warbler,Leiothlypis peregrina,3,"Station d'épuration, Rimouski",CA-QC,11 Sep 2024,L3595741,S194768065,,1
+254,33310,species,Lincoln's Sparrow,Melospiza lincolnii,2,"Station d'épuration, Rimouski",CA-QC,11 Sep 2024,L3595741,S194768065,,1
+255,28324,species,Swainson's Thrush,Catharus ustulatus,1,"Station d'épuration, Rimouski",CA-QC,11 Sep 2024,L3595741,S194768065,,1
+257,7213,species,Sooty Shearwater,Ardenna grisea,1,"Quai, Pointe-au-Père",CA-QC,08 Sep 2024,L2751569,S194408199,,1
+258,6221,species,White-rumped Sandpiper,Calidris fuscicollis,4,"Quai, Pointe-au-Père",CA-QC,04 Sep 2024,L2751569,S193975171,,1
+261,6494,species,Franklin's Gull,Leucophaeus pipixcan,1,Centre d’int. et d’obs. de Cap-de-Bon-Désir,CA-QC,20 Aug 2024,L3769317,S192188193,,1
+262,6226,species,Least Sandpiper,Calidris minutilla,20,Parc Pointe-à-Pouliot,CA-QC,26 May 2024,L3675955,S177562139,,1
+263,6057,species,Short-billed Dowitcher,Limnodromus griseus,1,Parc Pointe-à-Pouliot,CA-QC,26 May 2024,L3675955,S177562139,,1
+265,5827,species,Killdeer,Charadrius vociferus,1,"Quai, Pointe-au-Père",CA-QC,04 Apr 2024,L2751569,S167367673,,1
+266,32310,species,House Finch,Haemorhous mexicanus,6,Jardin botanique de Montréal (accès restreint),CA-QC,23 Dec 2023,L165056,S156955541,N,1
+267,33415,species,Eastern Towhee,Pipilo erythrophthalmus,1,"Sentiers au Sud de l’étang Parent (48.4318,-68.5509)",CA-QC,16 Dec 2023,L28316468,S156590291,,1
+268,2412,species,Mourning Dove,Zenaida macroura,4,"Sentiers au Sud de l’étang Parent (48.4318,-68.5509)",CA-QC,16 Dec 2023,L28316468,S156590291,,1
+269,8367,species,Bald Eagle,Haliaeetus leucocephalus,1,"Quai, Pointe-au-Père",CA-QC,17 Nov 2023,L2751569,S154814749,,1
+270,742,species,Bufflehead,Bucephala albeola,1,"Quai, Pointe-au-Père",CA-QC,17 Nov 2023,L2751569,S154814749,,1
+271,32483,species,Redpoll,Acanthis flammea,20,Boisé de l'Eurêka,CA-QC,12 Nov 2023,L8143532,S154341377,,1
+272,32221,species,Pine Grosbeak,Pinicola enucleator,1,Boisé de l'Eurêka,CA-QC,12 Nov 2023,L8143532,S154341377,,1
+273,22099,species,Boreal Chickadee,Poecile hudsonicus,2,Boisé de l'Eurêka,CA-QC,12 Nov 2023,L8143532,S154341377,,1
+275,6207,species,Purple Sandpiper,Calidris maritima,2,"Quai, Pointe-au-Père",CA-QC,12 Nov 2023,L2751569,S154341376,,1
+276,29885,species,Bohemian Waxwing,Bombycilla garrulus,60,"Quai, Pointe-au-Père",CA-QC,11 Nov 2023,L2751569,S154251403,,1
+277,6606,species,Iceland Gull,Larus glaucoides,35,"Quai, Pointe-au-Père",CA-QC,11 Nov 2023,L2751569,S154251403,,1
+278,6566,species,Glaucous Gull,Larus hyperboreus,4,"Quai, Pointe-au-Père",CA-QC,11 Nov 2023,L2751569,S154251403,,1
+279,6416,species,Dovekie,Alle alle,6,"Quai, Pointe-au-Père",CA-QC,11 Nov 2023,L2751569,S154251403,,1
+281,748,species,Barrow's Goldeneye,Bucephala islandica,121,"Quai, Pointe-au-Père",CA-QC,11 Nov 2023,L2751569,S154251403,,1
+282,7053,species,Leach's Storm-Petrel,Hydrobates leucorhous,1,"Quai, Pointe-au-Père",CA-QC,14 Oct 2023,L2751569,S152338101,,1
+285,762,species,Common Merganser,Mergus merganser,2,"Quai, Pointe-au-Père",CA-QC,14 Oct 2023,L2751569,S152338101,,1
+286,32674,species,Snow Bunting,Plectrophenax nivalis,10,"Quai, Pointe-au-Père",CA-QC,11 Oct 2023,L2751569,S151975073,,1
+287,6363,species,Pomarine Jaeger,Stercorarius pomarinus,1,"Quai, Pointe-au-Père",CA-QC,11 Oct 2023,L2751569,S151975073,,1
+288,6232,species,Semipalmated Sandpiper,Calidris pusilla,2,"Quai, Pointe-au-Père",CA-QC,11 Oct 2023,L2751569,S151975073,,1
+289,267,species,Snow Goose,Anser caerulescens,9,"Quai, Pointe-au-Père",CA-QC,11 Oct 2023,L2751569,S151975073,,1
+290,5815,species,American Golden-Plover,Pluvialis dominica,27,"Quai, Pointe-au-Père",CA-QC,01 Oct 2023,L2751569,S151226917,,1
+291,741,species,Long-tailed Duck,Clangula hyemalis,4,"Quai, Pointe-au-Père",CA-QC,01 Oct 2023,L2751569,S151226917,,1
+292,713,species,King Eider,Somateria spectabilis,1,"Quai, Pointe-au-Père",CA-QC,01 Oct 2023,L2751569,S151226917,,1
+294,6145,species,Lesser Yellowlegs,Tringa flavipes,1,"Quai, Pointe-au-Père",CA-QC,27 Sep 2023,L2751569,S150998439,,1
+295,5834,species,Semipalmated Plover,Charadrius semipalmatus,3,"Quai, Pointe-au-Père",CA-QC,27 Sep 2023,L2751569,S150998439,,1
+296,700,species,Lesser Scaup,Aythya affinis,5,"Quai, Pointe-au-Père",CA-QC,27 Sep 2023,L2751569,S150998439,,1
+297,694,species,Greater Scaup,Aythya marila,35,"Quai, Pointe-au-Père",CA-QC,27 Sep 2023,L2751569,S150998439,,1
+299,6379,species,Atlantic Puffin,Fratercula arctica,3,"Emissaire d'eaux usées, Essipit",CA-QC,24 Sep 2023,L9934696,S150873357,,1
+300,33187,species,White-crowned Sparrow,Zonotrichia leucophrys,3,Dunes de Tadoussac,CA-QC,24 Sep 2023,L17,S150869161,,1
+301,33124,species,Dark-eyed Junco,Junco hyemalis,15,Dunes de Tadoussac,CA-QC,24 Sep 2023,L17,S150869161,,1
+302,32595,species,Pine Siskin,Spinus pinus,289,Dunes de Tadoussac,CA-QC,24 Sep 2023,L17,S150869161,,1
+303,32542,species,White-winged Crossbill,Loxia leucoptera,6,Dunes de Tadoussac,CA-QC,24 Sep 2023,L17,S150869161,,1
+304,26848,species,Golden-crowned Kinglet,Regulus satrapa,1,Dunes de Tadoussac,CA-QC,24 Sep 2023,L17,S150869161,,1
+305,26844,species,Ruby-crowned Kinglet,Corthylio calendula,1,Dunes de Tadoussac,CA-QC,24 Sep 2023,L17,S150869161,,1
+306,12028,species,American Kestrel,Falco sparverius,5,Dunes de Tadoussac,CA-QC,24 Sep 2023,L17,S150869161,,1
+307,8292,species,American Goshawk,Astur atricapillus,1,Dunes de Tadoussac,CA-QC,24 Sep 2023,L17,S150869161,,1
+308,8256,species,Sharp-shinned Hawk,Accipiter striatus,18,Dunes de Tadoussac,CA-QC,24 Sep 2023,L17,S150869161,,1
+309,673,species,Ring-necked Duck,Aythya collaris,1,Pointe des Fortin,CA-QC,23 Sep 2023,L1440725,S150869168,,1
+310,667,species,Redhead,Aythya americana,1,Pointe des Fortin,CA-QC,23 Sep 2023,L1440725,S150869168,,1
+311,33244,species,Savannah Sparrow,Passerculus sandwichensis,6,Pointe à Émile,CA-QC,23 Sep 2023,L2530758,S150866491,,1
+312,32664,species,Lapland Longspur,Calcarius lapponicus,1,Pointe à Émile,CA-QC,23 Sep 2023,L2530758,S150866491,,1
+313,22710,species,Horned Lark,Eremophila alpestris,200,Pointe à Émile,CA-QC,23 Sep 2023,L2530758,S150866491,,1
+314,8324,species,Northern Harrier,Circus hudsonius,1,Pointe à Émile,CA-QC,23 Sep 2023,L2530758,S150866491,,1
+315,7832,species,Osprey,Pandion haliaetus,1,Pointe à Émile,CA-QC,23 Sep 2023,L2530758,S150866491,,1
+316,6188,species,Buff-breasted Sandpiper,Calidris subruficollis,2,Pointe à Émile,CA-QC,23 Sep 2023,L2530758,S150866491,,1
+317,6154,species,Greater Yellowlegs,Tringa melanoleuca,5,Pointe à Émile,CA-QC,23 Sep 2023,L2530758,S150866491,,1
+319,31883,species,American Pipit,Anthus rubescens,29,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,1
+320,6869,species,Red-necked Grebe,Podiceps grisegena,5,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,1
+321,6576,species,Lesser Black-backed Gull,Larus fuscus,2,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,1
+322,6462,species,Bonaparte's Gull,Chroicocephalus philadelphia,10,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,1
+323,6361,species,Parasitic Jaeger,Stercorarius parasiticus,1,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,1
+325,6192,species,Dunlin,Calidris alpina,10,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,1
+326,6189,species,Sanderling,Calidris alba,3,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,1
+327,6011,species,Hudsonian Whimbrel,Numenius hudsonicus,2,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,1
+328,5811,species,Black-bellied Plover,Pluvialis squatarola,4,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,1
+329,743,species,Common Goldeneye,Bucephala clangula,13,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,1
+330,727,species,Harlequin Duck,Histrionicus histrionicus,1,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,1
+332,7333,species,Northern Gannet,Morus bassanus,6,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+334,6933,species,Common Loon,Gavia immer,40,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+335,6927,species,Red-throated Loon,Gavia stellata,12,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+336,6866,species,Horned Grebe,Podiceps auritus,1,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+338,6562,species,Great Black-backed Gull,Larus marinus,2,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+339,6539,species,American Herring Gull,Larus smithsonianus,12,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+340,6449,species,Black-legged Kittiwake,Rissa tridactyla,1,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+342,6412,species,Razorbill,Alca torda,4,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+343,6396,species,Black Guillemot,Cepphus grylle,8,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+345,6161,species,Ruddy Turnstone,Arenaria interpres,3,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+346,6126,species,Spotted Sandpiper,Actitis macularius,1,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+348,770,species,Red-breasted Merganser,Mergus serrator,1,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+351,737,species,Black Scoter,Melanitta americana,12,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+352,730,species,White-winged Scoter,Melanitta deglandi,456,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+353,728,species,Surf Scoter,Melanitta perspicillata,188,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+354,715,species,Common Eider,Somateria mollissima,20,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+355,612,species,Green-winged Teal,Anas crecca,3,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+356,594,species,Northern Pintail,Anas acuta,6,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+357,571,species,American Black Duck,Anas rubripes,21,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,1
+358,34060,species,Cape May Warbler,Setophaga tigrina,1,Cimetières Mont-Royal et Notre-Dame-des-Neiges,CA-QC,30 Aug 2020,L806691,S72986772,,1
+359,21624,species,Common Raven,Corvus corax,1,Cimetières Mont-Royal et Notre-Dame-des-Neiges,CA-QC,30 Aug 2020,L806691,S72986772,,1
+360,7729,species,Great Egret,Ardea alba,1,"590 Montée Mongeau, Saint-Calixte, Québec, CA (45,919, -73,91)",CA-QC,13 Aug 2020,L12040256,S72369364,,1
+361,16963,species,Least Flycatcher,Empidonax minimus,2,"590 Montée Mongeau, Saint-Calixte, Québec, CA (45,919, -73,91)",CA-QC,12 Aug 2020,L12040256,S72354721,,1
+362,34028,species,Common Yellowthroat,Geothlypis trichas,4,"590 Montée Mongeau, Saint-Calixte, Québec, CA (45,919, -73,91)",CA-QC,09 Aug 2020,L12040256,S72254392,,1
+363,19226,species,Blue-headed Vireo,Vireo solitarius,1,"590 Montée Mongeau, Saint-Calixte, Québec, CA (45,919, -73,91)",CA-QC,09 Aug 2020,L12040256,S72254392,,1
+364,12062,species,Merlin,Falco columbarius,1,"590 Montée Mongeau, Saint-Calixte, Québec, CA (45,919, -73,91)",CA-QC,09 Aug 2020,L12040256,S72254392,,1
+365,12114,species,Peregrine Falcon,Falco peregrinus,1,Cimetières Mont-Royal et Notre-Dame-des-Neiges,CA-QC,09 Jul 2020,L806691,S71283324,,1
+366,26937,species,Red-breasted Nuthatch,Sitta canadensis,1,Cimetières Mont-Royal et Notre-Dame-des-Neiges,CA-QC,05 Jul 2020,L806691,S71156341,,1
+367,4802,species,Ruby-throated Hummingbird,Archilochus colubris,1,Cimetières Mont-Royal et Notre-Dame-des-Neiges,CA-QC,03 Jul 2020,L806691,S71108149,,1
+368,28126,species,Eastern Bluebird,Sialia sialis,2,Cimetières Mont-Royal et Notre-Dame-des-Neiges,CA-QC,30 Jun 2020,L806691,S70989123,,1
+369,8487,species,Red-shouldered Hawk,Buteo lineatus,1,PN du Bois-de-l'île-Bizard,CA-QC,25 Jun 2020,L166210,S70807391,,1
+370,754,species,Hooded Merganser,Lophodytes cucullatus,1,PN du Bois-de-l'île-Bizard,CA-QC,25 Jun 2020,L166210,S70807391,,1
+371,17472,species,Eastern Kingbird,Tyrannus tyrannus,2,PN du Bois-de-l'île-Bizard,CA-QC,13 Jun 2020,L166210,S70391215,,1
+372,17007,species,Eastern Phoebe,Sayornis phoebe,4,PN du Bois-de-l'île-Bizard,CA-QC,13 Jun 2020,L166210,S70391215,,1
+373,11126,species,Yellow-bellied Sapsucker,Sphyrapicus varius,2,PN du Bois-de-l'île-Bizard,CA-QC,13 Jun 2020,L166210,S70391215,,1
+374,10306,species,Belted Kingfisher,Megaceryle alcyon,2,PN du Bois-de-l'île-Bizard,CA-QC,13 Jun 2020,L166210,S70391215,,1
+375,8479,species,Broad-winged Hawk,Buteo platypterus,1,PN du Bois-de-l'île-Bizard,CA-QC,13 Jun 2020,L166210,S70391215,,1
+376,7704,species,Green Heron,Butorides virescens,1,PN du Bois-de-l'île-Bizard,CA-QC,13 Jun 2020,L166210,S70391215,,1
+377,3896,species,Chimney Swift,Chaetura pelagica,4,Parc du Mont-Royal,CA-QC,12 Jun 2020,L453505,S70343835,,1
+378,28347,species,Wood Thrush,Hylocichla mustelina,1,Parc du Mont-Royal,CA-QC,08 Jun 2020,L453505,S70204856,,1
+379,34133,species,Chestnut-sided Warbler,Setophaga pensylvanica,1,Parc Summit,CA-QC,07 Jun 2020,L469060,S70159931,,1
+380,29888,species,Cedar Waxwing,Bombycilla cedrorum,6,Parc Summit,CA-QC,07 Jun 2020,L469060,S70159931,,1
+381,28000,species,Gray Catbird,Dumetella carolinensis,1,Parc Summit,CA-QC,07 Jun 2020,L469060,S70159931,,1
+382,11427,species,Hairy Woodpecker,Leuconotopicus villosus,1,Parc Summit,CA-QC,07 Jun 2020,L469060,S70159931,,1
+383,33853,species,Common Grackle,Quiscalus quiscula,1,Parc Angrignon,CA-QC,02 Jun 2020,L2468319,S69970527,,1
+384,33770,species,Baltimore Oriole,Icterus galbula,2,Parc Angrignon,CA-QC,02 Jun 2020,L2468319,S69970527,,1
+385,7600,species,Black-crowned Night Heron,Nycticorax nycticorax,2,Parc Angrignon,CA-QC,02 Jun 2020,L2468319,S69970527,,1
+386,7424,species,Double-crested Cormorant,Nannopterum auritum,1,Parc Angrignon,CA-QC,02 Jun 2020,L2468319,S69970527,,1
+387,6748,species,Common Tern,Sterna hirundo,1,Parc Angrignon,CA-QC,02 Jun 2020,L2468319,S69970527,,1
+388,8278,species,Cooper's Hawk,Astur cooperii,1,Parc du Mont-Royal,CA-QC,01 Jun 2020,L453505,S69942989,,1
+389,19267,species,Red-eyed Vireo,Vireo olivaceus,2,Parc du Mont-Royal,CA-QC,31 May 2020,L453505,S69898081,,1
+390,17334,species,Great Crested Flycatcher,Myiarchus crinitus,1,Parc du Mont-Royal,CA-QC,31 May 2020,L453505,S69898081,,1
+391,11762,species,Pileated Woodpecker,Dryocopus pileatus,1,Parc du Mont-Royal,CA-QC,31 May 2020,L453505,S69898081,,1
+392,7815,species,Turkey Vulture,Cathartes aura,3,Parc du Mont-Royal,CA-QC,31 May 2020,L453505,S69898081,,1
+393,34079,species,Magnolia Warbler,Setophaga magnolia,1,Parc du Mont-Royal,CA-QC,26 May 2020,L453505,S69675365,,1
+394,16924,species,Eastern Wood-Pewee,Contopus virens,1,Parc du Mont-Royal,CA-QC,26 May 2020,L453505,S69675365,,1
+395,34607,species,Indigo Bunting,Passerina cyanea,1,Parc du Mont-Royal,CA-QC,24 May 2020,L453505,S69574932,,1
+396,34218,species,Black-throated Green Warbler,Setophaga virens,1,Parc du Mont-Royal,CA-QC,24 May 2020,L453505,S69574932,,1
+397,34084,species,Blackburnian Warbler,Setophaga fusca,1,Parc du Mont-Royal,CA-QC,24 May 2020,L453505,S69574932,,1
+398,34083,species,Bay-breasted Warbler,Setophaga castanea,2,Parc du Mont-Royal,CA-QC,24 May 2020,L453505,S69574932,,1
+399,34058,species,American Redstart,Setophaga ruticilla,1,Parc du Mont-Royal,CA-QC,24 May 2020,L453505,S69574932,,1
+400,33962,species,Black-and-white Warbler,Mniotilta varia,1,Parc du Mont-Royal,CA-QC,24 May 2020,L453505,S69574932,,1
+401,27813,species,European Starling,Sturnus vulgaris,10,Parc du Mont-Royal,CA-QC,24 May 2020,L453505,S69574932,N,1
+402,27295,species,Winter Wren,Troglodytes hiemalis,1,Parc du Mont-Royal,CA-QC,24 May 2020,L453505,S69574932,,1
+403,21294,species,Blue Jay,Cyanocitta cristata,1,Parc du Mont-Royal,CA-QC,24 May 2020,L453505,S69574932,,1
+404,19245,species,Eastern Warbling Vireo,Vireo gilvus,1,Parc du Mont-Royal,CA-QC,24 May 2020,L453505,S69574932,,1
+405,34515,species,Northern Cardinal,Cardinalis cardinalis,2,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+406,34148,species,Palm Warbler,Setophaga palmarum,1,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+407,34087,species,Northern Yellow Warbler,Setophaga aestiva,1,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+408,33953,species,Northern Waterthrush,Parkesia noveboracensis,1,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+409,33779,species,Red-winged Blackbird,Agelaius phoeniceus,25,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+410,33315,species,Swamp Sparrow,Melospiza georgiana,4,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+411,33277,species,Song Sparrow,Melospiza melodia,3,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+412,33201,species,White-throated Sparrow,Zonotrichia albicollis,2,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+413,28633,species,American Robin,Turdus migratorius,6,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+414,24064,species,Tree Swallow,Tachycineta bicolor,2,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+415,21557,species,American Crow,Corvus brachyrhynchos,3,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+416,8506,species,Red-tailed Hawk,Buteo jamaicensis,1,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+417,7753,species,Great Blue Heron,Ardea herodias,1,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+418,6521,species,Ring-billed Gull,Larus delawarensis,8,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+419,1853,species,Rock Pigeon,Columba livia,10,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,N,1
+420,545,species,Mallard,Anas platyrhynchos,3,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+421,517,species,American Wigeon,Mareca americana,2,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+422,455,species,Wood Duck,Aix sponsa,6,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+423,342,species,Canada Goose,Branta canadensis,3,Parc Angrignon,CA-QC,13 May 2020,L2468319,S68976727,,1
+424,34159,species,Yellow-rumped Warbler,Setophaga coronata,1,Parc du Mont-Royal,CA-QC,02 May 2020,L453505,S68247533,,1
+425,32990,species,Chipping Sparrow,Spizella passerina,2,Parc du Mont-Royal,CA-QC,02 May 2020,L453505,S68247533,,1
+426,32617,species,American Goldfinch,Spinus tristis,4,Parc du Mont-Royal,CA-QC,02 May 2020,L453505,S68247533,,1
+427,28333,species,Hermit Thrush,Catharus guttatus,1,Parc du Mont-Royal,CA-QC,02 May 2020,L453505,S68247533,,1
+428,27191,species,Northern House Wren,Troglodytes aedon,1,Parc du Mont-Royal,CA-QC,02 May 2020,L453505,S68247533,,1
+429,27026,species,Brown Creeper,Certhia americana,5,Parc du Mont-Royal,CA-QC,02 May 2020,L453505,S68247533,,1
+430,26889,species,White-breasted Nuthatch,Sitta carolinensis,1,Parc du Mont-Royal,CA-QC,02 May 2020,L453505,S68247533,,1
+431,22065,species,Black-capped Chickadee,Poecile atricapillus,17,Parc du Mont-Royal,CA-QC,02 May 2020,L453505,S68247533,,1
+432,11900,species,Northern Flicker,Colaptes auratus,2,Parc du Mont-Royal,CA-QC,02 May 2020,L453505,S68247533,,1
+433,11400,species,Downy Woodpecker,Dryobates pubescens,4,Parc du Mont-Royal,CA-QC,02 May 2020,L453505,S68247533,,1
+434,9219,species,Barred Owl,Strix varia,1,Parc du Mont-Royal,CA-QC,02 May 2020,L453505,S68247533,,1
+214,573,hybrid,Mallard x American Black Duck (hybrid),Anas platyrhynchos x rubripes,1,Village des Sources,CA-QC,10 May 2025,L2190627,S235748970,,0
+11,6155,slash,Lesser/Greater Yellowlegs,Tringa flavipes/melanoleuca,1,PN du Bic--Belvédère Raoul-Roy,CA-QC,06 May 2026,L1353114,S333705849,,0
+12,8304,spuh,Accipitrine hawk sp. (former Accipiter sp.),Aerospiza/Tachyspiza/Accipiter/Astur sp.,1,PN du Bic--Belvédère Raoul-Roy,CA-QC,04 May 2026,L1353114,S332685359,,0
+37,14968,spuh,woodcreeper sp.,Dendrocolaptinae sp.,1,Secret Forest Lodge,PE-MDD,03 Mar 2026,L6771781,S305552568,,0
+41,11934,spuh,woodpecker sp.,Picidae sp.,2,Secret Forest Lodge,PE-MDD,03 Mar 2026,L6771781,S305552568,,0
+43,4336,spuh,hermit sp.,Phaethornis sp.,1,Secret Forest Lodge,PE-MDD,03 Mar 2026,L6771781,S305552568,,0
+47,7828,spuh,new world vulture sp.,Cathartidae sp.,1,Secret Forest Lodge,PE-MDD,01 Mar 2026,L6771781,S305143752,,0
+56,13215,spuh,parakeet sp.,Psittaciformes sp. (parakeet sp.),30,Chuncho Lodge--Tower,PE-MDD,24 Feb 2026,L25843053,S303570865,,0
+60,4199,spuh,swift sp.,Apodidae sp.,5,Chuncho Lodge--Tower,PE-MDD,24 Feb 2026,L25843053,S303570865,,0
+68,13160,spuh,large macaw sp.,Ara sp.,2,Secret Forest Lodge,PE-MDD,20 Feb 2026,L6771781,S302854493,,0
+99,230,spuh,tinamou sp.,Tinamidae sp.,1,Secret Forest Lodge,PE-MDD,10 Feb 2026,L6771781,S299385476,,0
+114,16518,spuh,Tolmomyias sp.,Tolmomyias sp.,1,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,0
+121,5214,spuh,hummingbird sp.,Trochilidae sp.,1,Secret Forest Lodge,PE-MDD,08 Feb 2026,L6771781,S298936983,,0
+191,35853,spuh,bird sp.,Aves sp.,1,"Quai, Pointe-au-Père",CA-QC,02 Nov 2025,L2751569,S282591568,,0
+197,34140,slash,Bay-breasted/Blackpoll Warbler,Setophaga castanea/striata,2,PN de la Gaspésie--Mont Jacques-Cartier,CA-QC,07 Sep 2025,L3467916,S272138081,,0
+198,16997,spuh,Empidonax sp.,Empidonax sp.,1,Pointe à John (utilisez un site plus précis),CA-QC,23 Aug 2025,L1022951,S269014388,,0
+202,574,slash,Mallard/American Black Duck,Anas platyrhynchos/rubripes,18,Centre d’int. et d’obs. de Cap-de-Bon-Désir,CA-QC,03 Jul 2025,L3769317,S256536207,,0
+211,12141,spuh,falcon sp.,Falco sp.,1,"Quai, Pointe-au-Père",CA-QC,11 May 2025,L2751569,S236629325,,0
+215,24305,spuh,swallow sp.,Hirundinidae sp.,1,Bordure rivière Saint-Anne,CA-QC,07 May 2025,L44250368,S234228744,,0
+217,8576,spuh,hawk sp.,Accipitridae sp. (hawk sp.),2,"Quai, Pointe-au-Père",CA-QC,02 May 2025,L2751569,S232491411,,0
+218,32662,spuh,finch sp.,Fringillidae sp.,25,Rocher Blanc,CA-QC,29 Apr 2025,L4651659,S230855396,,0
+219,35852,spuh,passerine sp.,Passeriformes sp.,8,"Quai, Pointe-au-Père",CA-QC,29 Apr 2025,L2751569,S231198173,,0
+222,8373,slash,Golden/Bald Eagle,Aquila chrysaetos/Haliaeetus leucocephalus,1,Université du Québec à Rimouski (campus),CA-QC,24 Apr 2025,L4062980,S228955579,,0
+223,8279,slash,Sharp-shinned/Cooper's Hawk,Accipiter striatus/Astur cooperii,2,Université du Québec à Rimouski (campus),CA-QC,24 Apr 2025,L4062980,S228955579,,0
+224,773,slash,Common/Red-breasted Merganser,Mergus merganser/serrator,4,Parc Pointe-à-Pouliot,CA-QC,14 Apr 2025,L3675955,S225722153,,0
+226,6617,spuh,white-winged gull sp.,Larus sp. (white-winged gull sp.),17,"Quai, Pointe-au-Père",CA-QC,16 Mar 2025,L2751569,S218890654,,0
+227,8573,spuh,Buteo sp.,Buteo sp.,1,Parc Regard-sur-le-fleuve,CA-QC,17 Dec 2024,L3514749,S205828274,,0
+247,34397,spuh,new world warbler sp.,Parulidae sp.,14,"Station d'épuration, Rimouski",CA-QC,18 Sep 2024,L3595741,S195553875,,0
+256,6237,spuh,Scolopacidae sp.,Scolopacidae sp.,1,Anse au Lard,CA-QC,11 Sep 2024,L2866551,S194770582,,0
+259,709,spuh,Aythya sp.,Aythya sp.,1,"Quai, Pointe-au-Père",CA-QC,04 Sep 2024,L2751569,S193975171,,0
+260,655,spuh,dabbling duck sp.,Anatidae sp. (dabbling duck sp.),1,"Quai, Pointe-au-Père",CA-QC,04 Sep 2024,L2751569,S193975171,,0
+264,363,slash,Cackling/Canada Goose,Branta hutchinsii/canadensis,1,"Quai, Pointe-au-Père",CA-QC,07 Apr 2024,L2751569,S167642557,,0
+274,6618,spuh,Larus sp.,Larus sp.,12,Boisé de l'Eurêka,CA-QC,12 Nov 2023,L8143532,S154341377,,0
+280,751,slash,Common/Barrow's Goldeneye,Bucephala clangula/islandica,6,"Quai, Pointe-au-Père",CA-QC,11 Nov 2023,L2751569,S154251403,,0
+283,6756,slash,Common/Arctic Tern,Sterna hirundo/paradisaea,7,"Quai, Pointe-au-Père",CA-QC,14 Oct 2023,L2751569,S152338101,,0
+284,6365,slash,Parasitic/Pomarine Jaeger,Stercorarius parasiticus/pomarinus,1,"Quai, Pointe-au-Père",CA-QC,14 Oct 2023,L2751569,S152338101,,0
+293,6373,spuh,jaeger sp.,Stercorarius sp. (jaeger sp.),2,"Quai, Pointe-au-Père",CA-QC,27 Sep 2023,L2751569,S150998439,,0
+298,6432,spuh,large alcid sp.,Alca/Uria sp.,1,"Emissaire d'eaux usées, Essipit",CA-QC,24 Sep 2023,L9934696,S150873357,,0
+318,5819,spuh,Black-bellied Plover/golden-plover sp.,Pluvialis sp.,1,Pointe à Émile,CA-QC,23 Sep 2023,L2530758,S150866491,,0
+324,6235,spuh,peep sp.,Calidris sp. (peep sp.),4,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,0
+331,708,slash,Greater/Lesser Scaup,Aythya marila/affinis,1,"Quai, Pointe-au-Père",CA-QC,17 Sep 2023,L2751569,S150109859,,0
+333,6937,spuh,loon sp.,Gavia sp.,5,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,0
+337,6619,spuh,gull sp.,Larinae sp.,2,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,0
+341,6444,spuh,alcid sp.,Alcidae sp.,1,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,0
+344,6356,spuh,shorebird sp.,Charadriiformes sp. (shorebird sp.),2,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,0
+347,792,spuh,duck sp.,Anatidae (duck sp.),14,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,0
+349,740,spuh,scoter sp.,Melanitta sp.,7,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,0
+350,738,slash,Surf/Black Scoter,Melanitta perspicillata/americana,27,"Quai, Pointe-au-Père",CA-QC,15 Sep 2023,L2751569,S149949794,,0
