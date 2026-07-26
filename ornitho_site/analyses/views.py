@@ -14,6 +14,7 @@ import csv
 import io
 import os
 import gc
+import json
 
 
 COUNTRY_ALIASES = {
@@ -44,6 +45,8 @@ _BASELINE_CACHE = {
     "results": None,
 }
 
+BASELINE_JSON_FILENAME = "baseline_world.json"
+
 
 def get_target_species_path():
     return os.path.join(
@@ -51,6 +54,24 @@ def get_target_species_path():
         "core",
         "Especes_cibles_monde_copie.xlsx",
     )
+
+
+def get_baseline_json_path():
+    return os.path.join(settings.BASE_DIR, "core", BASELINE_JSON_FILENAME)
+
+
+def load_baseline_from_file():
+    baseline_path = get_baseline_json_path()
+    if not os.path.exists(baseline_path):
+        return None
+    with open(baseline_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def save_baseline_to_file(results):
+    baseline_path = get_baseline_json_path()
+    with open(baseline_path, "w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False)
 
 
 def apply_country_aliases(results):
@@ -67,13 +88,21 @@ def apply_country_aliases(results):
     return results
 
 
-def get_baseline_results(target_species_path):
+def get_baseline_results(target_species_path, allow_recompute=False):
     baseline, _ = BaselineAnalysis.objects.get_or_create(name="world_baseline")
     if not baseline.baseline_json:
-        baseline.baseline_json = apply_country_aliases(
-            compute_baseline_results(target_species_path)
-        )
-        baseline.save(update_fields=["baseline_json"])
+        file_baseline = load_baseline_from_file()
+        if file_baseline:
+            baseline.baseline_json = file_baseline
+            baseline.save(update_fields=["baseline_json"])
+        elif allow_recompute:
+            baseline.baseline_json = apply_country_aliases(
+                compute_baseline_results(target_species_path)
+            )
+            baseline.save(update_fields=["baseline_json"])
+            save_baseline_to_file(baseline.baseline_json)
+        else:
+            return None
 
     cache_hit = (
         _BASELINE_CACHE["results"] is not None
@@ -90,6 +119,10 @@ def get_baseline_results(target_species_path):
 def build_results_from_species_to_remove(species_to_remove):
     target_species_path = get_target_species_path()
     baseline_results = get_baseline_results(target_species_path)
+    if baseline_results is None:
+        raise RuntimeError(
+            "Baseline indisponible. Exécutez `python manage.py rebuild_baseline` avant de servir les pages."
+        )
 
     filtered_results = apply_country_aliases(
         filter_upload_results(baseline_results, species_to_remove)
@@ -174,8 +207,15 @@ def home_view(request):
         if analyse is not None:
             results = get_cached_analysis_results(analyse)
 
+    baseline_unavailable = False
     if results is None:
         results = get_baseline_results(get_target_species_path())
+        if results is None:
+            baseline_unavailable = True
+            results = {
+                "pays_list": [],
+                "lifelist_count": 0,
+            }
 
     context = build_detail_context(
         request=request,
@@ -183,6 +223,7 @@ def home_view(request):
         results=results,
         is_baseline=(analyse is None),
     )
+    context["baseline_unavailable"] = baseline_unavailable
     return render(request, "analyses/detail.html", context)
 
 
@@ -212,6 +253,13 @@ def upload_life_list_view(request):
         fichier = request.FILES.get("life_list")
         if not fichier:
             return render(request, "analyses/upload.html", {"error": "Aucun fichier fourni."})
+
+        if get_baseline_results(get_target_species_path()) is None:
+            return render(
+                request,
+                "analyses/upload.html",
+                {"error": "Baseline indisponible. Lancez d'abord `python manage.py rebuild_baseline`."},
+            )
 
         titre = fichier.name or "Analyse"
         analyse = Analyse.objects.create(
@@ -251,6 +299,7 @@ def refresh_baseline_view(request):
         compute_baseline_results(target_species_path)
     )
     baseline.save(update_fields=["baseline_json"])
+    save_baseline_to_file(baseline.baseline_json)
     _BASELINE_CACHE["updated_at"] = baseline.date_updated
     _BASELINE_CACHE["results"] = baseline.baseline_json
     return redirect("analyses:home")
@@ -331,6 +380,8 @@ def section_blanks_json(request, analyse_id):
 
 def baseline_section_blanks_json(request):
     results = get_baseline_results(get_target_species_path())
+    if results is None:
+        return JsonResponse({"error": "Baseline indisponible."}, status=503)
     return _section_blanks_json_from_results(results, request)
 
 
@@ -384,6 +435,8 @@ def section_blanks_by_country_json(request, analyse_id):
 
 def baseline_section_blanks_by_country_json(request):
     results = get_baseline_results(get_target_species_path())
+    if results is None:
+        return JsonResponse({"error": "Baseline indisponible."}, status=503)
     return _section_blanks_by_country_json_from_results(results, request)
 
 
@@ -407,4 +460,6 @@ def section_summary_json(request, analyse_id):
 
 def baseline_section_summary_json(request):
     results = get_baseline_results(get_target_species_path())
+    if results is None:
+        return JsonResponse({"error": "Baseline indisponible."}, status=503)
     return _section_summary_json_from_results(results)

@@ -189,6 +189,12 @@
 
     <hr>
 
+    {% if baseline_unavailable %}
+    <div style="background:#fff3cd; border:1px solid #ffe69c; padding:12px; border-radius:8px; margin-bottom:18px;">
+      Baseline indisponible pour le moment. Exécutez la commande interne <strong>python manage.py rebuild_baseline</strong> puis rechargez la page.
+    </div>
+    {% endif %}
+
     <!-- SECTION 1 : BLANKS -->
     <div id="section-blanks" class="section active">
       <div class="section-header">
@@ -367,6 +373,7 @@
     const blanksEndpoint = "{{ blanks_endpoint_url|escapejs }}";
     const blanksByCountryEndpoint = "{{ blanks_by_country_endpoint_url|escapejs }}";
     const summaryEndpoint = "{{ summary_endpoint_url|escapejs }}";
+    const baselineUnavailable = {{ baseline_unavailable|yesno:"true,false" }};
 
     // ----- Onglets (sections) -----
     const links = document.querySelectorAll(".tab-link");
@@ -889,6 +896,10 @@ function initMap() {
 
 // ----- Init DOM -----
 document.addEventListener("DOMContentLoaded", () => {
+  if (baselineUnavailable) {
+    return;
+  }
+
   console.log("DOM prêt");
   const activeTab = document.querySelector('.tab-link.active');
   if (activeTab) {

@@ -2,7 +2,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from analyses.models import BaselineAnalysis
-from analyses.views import apply_country_aliases
+from analyses.views import apply_country_aliases, save_baseline_to_file
 from core.world_blanks import compute_baseline_results
 
 import os
@@ -23,5 +23,6 @@ class Command(BaseCommand):
             compute_baseline_results(target_species_path)
         )
         baseline.save(update_fields=["baseline_json"])
+        save_baseline_to_file(baseline.baseline_json)
 
-        self.stdout.write(self.style.SUCCESS("Baseline rebuilt successfully."))
+        self.stdout.write(self.style.SUCCESS("Baseline rebuilt successfully (DB + file)."))
