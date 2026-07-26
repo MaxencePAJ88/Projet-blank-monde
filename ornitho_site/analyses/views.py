@@ -13,6 +13,7 @@ from core.world_blanks import (
 import csv
 import io
 import os
+import gc
 
 
 COUNTRY_ALIASES = {
@@ -36,6 +37,11 @@ COUNTRY_ALIASES = {
     "French Southern and Antarctic Lands": "French Southern and Antarctic Lands",
     "Antarctica": "Antarctica",
     "Republic of Serbia": "Serbia",
+}
+
+_BASELINE_CACHE = {
+    "updated_at": None,
+    "results": None,
 }
 
 
@@ -68,14 +74,49 @@ def get_baseline_results(target_species_path):
             compute_baseline_results(target_species_path)
         )
         baseline.save(update_fields=["baseline_json"])
-    return baseline.baseline_json
+
+    cache_hit = (
+        _BASELINE_CACHE["results"] is not None
+        and _BASELINE_CACHE["updated_at"] == baseline.date_updated
+    )
+    if cache_hit:
+        return _BASELINE_CACHE["results"]
+
+    _BASELINE_CACHE["updated_at"] = baseline.date_updated
+    _BASELINE_CACHE["results"] = baseline.baseline_json
+    return _BASELINE_CACHE["results"]
 
 
-def compute_analysis_results(analyse):
-    life_list_path = analyse.life_list_file.path
+def build_results_from_species_to_remove(species_to_remove):
     target_species_path = get_target_species_path()
+    baseline_results = get_baseline_results(target_species_path)
 
-    results = get_baseline_results(target_species_path)
+    filtered_results = apply_country_aliases(
+        filter_upload_results(baseline_results, species_to_remove)
+    )
+    filtered_results["lifelist_count"] = len(species_to_remove)
+
+    # Explicitly release large temporaries after each heavy recomputation.
+    gc.collect()
+    return filtered_results
+
+
+def extract_species_to_remove_from_file(file_obj):
+    file_obj.seek(0)
+    text_stream = io.TextIOWrapper(file_obj, encoding="utf-8", newline="")
+    try:
+        reader = csv.DictReader(text_stream)
+        species_to_remove = {
+            row.get("Common Name").strip().lower()
+            for row in reader
+            if row.get("Countable") == "1" and row.get("Common Name")
+        }
+    finally:
+        text_stream.detach()
+    return species_to_remove
+
+
+def extract_species_to_remove_from_path(life_list_path):
     species_to_remove = set()
     with open(life_list_path, newline="", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
@@ -84,12 +125,13 @@ def compute_analysis_results(analyse):
                 species_name = row.get("Common Name")
                 if species_name:
                     species_to_remove.add(species_name.strip().lower())
+    return species_to_remove
 
-    filtered_results = apply_country_aliases(
-        filter_upload_results(results, species_to_remove)
-    )
-    filtered_results["lifelist_count"] = len(species_to_remove)
-    return filtered_results
+
+def compute_analysis_results(analyse):
+    life_list_path = analyse.life_list_file.path
+    species_to_remove = extract_species_to_remove_from_path(life_list_path)
+    return build_results_from_species_to_remove(species_to_remove)
 
 
 def build_detail_context(request, analyse, results, is_baseline):
@@ -145,10 +187,24 @@ def home_view(request):
 
 
 def get_cached_analysis_results(analyse):
-    if not analyse.results_json:
-        analyse.results_json = compute_analysis_results(analyse)
+    stored = analyse.results_json or {}
+    result_mode = stored.get("result_mode")
+
+    if result_mode == "species_delta_v1":
+        species_to_remove = set(stored.get("species_to_remove", []))
+        return build_results_from_species_to_remove(species_to_remove)
+
+    if not stored:
+        species_to_remove = extract_species_to_remove_from_path(analyse.life_list_file.path)
+        analyse.results_json = {
+            "result_mode": "species_delta_v1",
+            "species_to_remove": sorted(species_to_remove),
+            "lifelist_count": len(species_to_remove),
+        }
         analyse.save(update_fields=["results_json"])
-    return analyse.results_json
+        return build_results_from_species_to_remove(species_to_remove)
+
+    return stored
 
 
 def upload_life_list_view(request):
@@ -164,24 +220,12 @@ def upload_life_list_view(request):
             titre=titre,
         )
 
-        target_species_path = get_target_species_path()
-        baseline_results = get_baseline_results(target_species_path)
-
-        fichier.seek(0)
-        text_stream = io.TextIOWrapper(fichier, encoding="utf-8", newline="")
-        reader = csv.DictReader(text_stream)
-        species_to_remove = {
-            row.get("Common Name").strip().lower()
-            for row in reader
-            if row.get("Countable") == "1" and row.get("Common Name")
+        species_to_remove = extract_species_to_remove_from_file(fichier)
+        analyse.results_json = {
+            "result_mode": "species_delta_v1",
+            "species_to_remove": sorted(species_to_remove),
+            "lifelist_count": len(species_to_remove),
         }
-        text_stream.detach()
-
-        filtered_results = apply_country_aliases(
-            filter_upload_results(baseline_results, species_to_remove)
-        )
-        filtered_results["lifelist_count"] = len(species_to_remove)
-        analyse.results_json = filtered_results
         analyse.save(update_fields=["results_json"])
 
         return redirect(f"{reverse('analyses:home')}?analysis={analyse.id}")
@@ -207,6 +251,8 @@ def refresh_baseline_view(request):
         compute_baseline_results(target_species_path)
     )
     baseline.save(update_fields=["baseline_json"])
+    _BASELINE_CACHE["updated_at"] = baseline.date_updated
+    _BASELINE_CACHE["results"] = baseline.baseline_json
     return redirect("analyses:home")
 
 
