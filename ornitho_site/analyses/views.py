@@ -41,7 +41,7 @@ COUNTRY_ALIASES = {
 }
 
 _BASELINE_CACHE = {
-    "updated_at": None,
+    "token": None,
     "results": None,
 }
 
@@ -68,6 +68,13 @@ def load_baseline_from_file():
         return json.load(f)
 
 
+def get_file_baseline_token():
+    baseline_path = get_baseline_json_path()
+    if not os.path.exists(baseline_path):
+        return None
+    return ("file", os.path.getmtime(baseline_path))
+
+
 def save_baseline_to_file(results):
     baseline_path = get_baseline_json_path()
     with open(baseline_path, "w", encoding="utf-8") as f:
@@ -90,11 +97,19 @@ def apply_country_aliases(results):
 
 def get_baseline_results(target_species_path, allow_recompute=False):
     baseline, _ = BaselineAnalysis.objects.get_or_create(name="world_baseline")
+
+    db_token = ("db", baseline.date_updated.timestamp()) if baseline.baseline_json else None
+    file_token = get_file_baseline_token()
+
+    if _BASELINE_CACHE["results"] is not None and _BASELINE_CACHE["token"] in {db_token, file_token}:
+        return _BASELINE_CACHE["results"]
+
     if not baseline.baseline_json:
         file_baseline = load_baseline_from_file()
         if file_baseline:
-            baseline.baseline_json = file_baseline
-            baseline.save(update_fields=["baseline_json"])
+            _BASELINE_CACHE["token"] = file_token
+            _BASELINE_CACHE["results"] = file_baseline
+            return file_baseline
         elif allow_recompute:
             baseline.baseline_json = apply_country_aliases(
                 compute_baseline_results(target_species_path)
@@ -104,14 +119,7 @@ def get_baseline_results(target_species_path, allow_recompute=False):
         else:
             return None
 
-    cache_hit = (
-        _BASELINE_CACHE["results"] is not None
-        and _BASELINE_CACHE["updated_at"] == baseline.date_updated
-    )
-    if cache_hit:
-        return _BASELINE_CACHE["results"]
-
-    _BASELINE_CACHE["updated_at"] = baseline.date_updated
+    _BASELINE_CACHE["token"] = ("db", baseline.date_updated.timestamp())
     _BASELINE_CACHE["results"] = baseline.baseline_json
     return _BASELINE_CACHE["results"]
 
@@ -300,7 +308,7 @@ def refresh_baseline_view(request):
     )
     baseline.save(update_fields=["baseline_json"])
     save_baseline_to_file(baseline.baseline_json)
-    _BASELINE_CACHE["updated_at"] = baseline.date_updated
+    _BASELINE_CACHE["token"] = ("db", baseline.date_updated.timestamp())
     _BASELINE_CACHE["results"] = baseline.baseline_json
     return redirect("analyses:home")
 
