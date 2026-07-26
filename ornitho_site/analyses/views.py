@@ -169,6 +169,125 @@ def extract_species_to_remove_from_path(life_list_path):
     return species_to_remove
 
 
+def is_compact_analysis_payload(payload):
+    return isinstance(payload, dict) and payload.get("result_mode") == "species_delta_v1"
+
+
+def get_analysis_species_to_remove(analyse):
+    stored = analyse.results_json or {}
+    if is_compact_analysis_payload(stored):
+        return set(stored.get("species_to_remove", []))
+    return extract_species_to_remove_from_path(analyse.life_list_file.path)
+
+
+def _iter_filtered_baseline_rows(baseline_results, species_to_remove):
+    for row in baseline_results.get("liste_blanks_records", []):
+        species = row.get("Species")
+        if species and species.strip().lower() in species_to_remove:
+            continue
+        yield row
+
+
+def compute_summary_from_baseline_delta(baseline_results, species_to_remove, threshold=0.0000009):
+    country_cols = baseline_results.get("blanks_country_cols", [])
+    country_continents = baseline_results.get("country_continents", {})
+
+    total_species = {c: 0 for c in country_cols}
+    above_threshold = {c: 0 for c in country_cols}
+    max_species_count = {c: 0 for c in country_cols}
+    continent_species = {}
+    species_continents = {}
+    blancks_par_pays = {}
+
+    for row in _iter_filtered_baseline_rows(baseline_results, species_to_remove):
+        species = row.get("Species")
+
+        max_country = row.get("Max_Percentage_Country")
+        if max_country:
+            max_species_count[max_country] = max_species_count.get(max_country, 0) + 1
+            try:
+                max_value = float(row.get(max_country) or 0)
+            except (TypeError, ValueError):
+                max_value = 0.0
+            blancks_par_pays.setdefault(max_country, []).append({
+                "species": species,
+                "value": max_value,
+            })
+
+        row_continents = set()
+        for country in country_cols:
+            raw_val = row.get(country)
+            try:
+                value = float(raw_val)
+            except (TypeError, ValueError):
+                value = 0.0
+
+            if value > 0:
+                total_species[country] = total_species.get(country, 0) + 1
+                continent = country_continents.get(country)
+                if continent and species:
+                    continent_species.setdefault(continent, set()).add(species)
+                    row_continents.add(continent)
+
+            if value > threshold:
+                above_threshold[country] = above_threshold.get(country, 0) + 1
+
+        if species and row_continents:
+            species_continents[species] = row_continents
+
+    for country, rows in blancks_par_pays.items():
+        rows.sort(key=lambda r: (-float(r.get("value", 0)), str(r.get("species") or "").lower()))
+
+    liste_pays_records = []
+    for country in country_cols:
+        liste_pays_records.append({
+            "Country": country,
+            "Continent": country_continents.get(country),
+            "Total_Species": int(total_species.get(country, 0)),
+            "Species_Above_00009": int(above_threshold.get(country, 0)),
+            "Max_Species_Count": int(max_species_count.get(country, 0)),
+        })
+    liste_pays_records.sort(key=lambda r: (-r["Total_Species"], str(r["Country"]).lower()))
+
+    continents_records = []
+    for continent, species_set in continent_species.items():
+        unique_species = 0
+        for species in species_set:
+            if len(species_continents.get(species, set())) == 1:
+                unique_species += 1
+        continents_records.append({
+            "Continent": continent,
+            "Total_Species": len(species_set),
+            "Unique_Species": unique_species,
+        })
+    continents_records.sort(key=lambda r: str(r["Continent"]).lower())
+
+    pays_stats = {
+        row["Country"]: {
+            "Total_Species": row["Total_Species"],
+            "Species_Above_00009": row["Species_Above_00009"],
+            "Max_Species_Count": row["Max_Species_Count"],
+        }
+        for row in liste_pays_records
+    }
+
+    species_values = [row["Total_Species"] for row in liste_pays_records]
+    species_min = min(species_values) if species_values else 0
+    species_max = max(species_values) if species_values else 0
+
+    return {
+        "liste_pays_records": liste_pays_records,
+        "continents_records": continents_records,
+        "pays_stats": pays_stats,
+        "country_continents": country_continents,
+        "species_min": species_min,
+        "species_max": species_max,
+        "blancks_par_pays": blancks_par_pays,
+        "pays_list": sorted(blancks_par_pays.keys()),
+        "blanks_country_cols": country_cols,
+    }
+
+
 def compute_analysis_results(analyse):
     life_list_path = analyse.life_list_file.path
     species_to_remove = extract_species_to_remove_from_path(life_list_path)
@@ -208,12 +327,23 @@ def build_detail_context(request, analyse, results, is_baseline):
 def home_view(request):
     analyse = None
     results = None
+    compact_lifelist_count = None
     analyse_id = request.GET.get("analysis")
 
     if analyse_id and analyse_id.isdigit():
         analyse = Analyse.objects.filter(pk=int(analyse_id)).first()
         if analyse is not None:
-            results = get_cached_analysis_results(analyse)
+            stored = analyse.results_json or {}
+            if is_compact_analysis_payload(stored):
+                baseline = get_baseline_results(get_target_species_path())
+                if baseline is not None:
+                    results = {
+                        "pays_list": baseline.get("pays_list", []),
+                        "lifelist_count": stored.get("lifelist_count", 0),
+                    }
+                    compact_lifelist_count = stored.get("lifelist_count", 0)
+            else:
+                results = get_cached_analysis_results(analyse)
 
     baseline_unavailable = False
     if results is None:
@@ -231,6 +361,8 @@ def home_view(request):
         results=results,
         is_baseline=(analyse is None),
     )
+    if compact_lifelist_count is not None:
+        context["lifelist_count"] = compact_lifelist_count
     context["baseline_unavailable"] = baseline_unavailable
     return render(request, "analyses/detail.html", context)
 
@@ -382,7 +514,18 @@ def _section_blanks_json_from_results(results, request):
 
 def section_blanks_json(request, analyse_id):
     analyse = get_object_or_404(Analyse, pk=analyse_id)
-    results = get_cached_analysis_results(analyse)
+    stored = analyse.results_json or {}
+    if is_compact_analysis_payload(stored):
+        baseline = get_baseline_results(get_target_species_path())
+        if baseline is None:
+            return JsonResponse({"error": "Baseline indisponible."}, status=503)
+        species_to_remove = set(stored.get("species_to_remove", []))
+        results = {
+            "liste_blanks_records": list(_iter_filtered_baseline_rows(baseline, species_to_remove)),
+            "blanks_country_cols": baseline.get("blanks_country_cols", []),
+        }
+    else:
+        results = get_cached_analysis_results(analyse)
     return _section_blanks_json_from_results(results, request)
 
 
@@ -437,7 +580,19 @@ def _section_blanks_by_country_json_from_results(results, request):
 
 def section_blanks_by_country_json(request, analyse_id):
     analyse = get_object_or_404(Analyse, pk=analyse_id)
-    results = get_cached_analysis_results(analyse)
+    stored = analyse.results_json or {}
+    if is_compact_analysis_payload(stored):
+        baseline = get_baseline_results(get_target_species_path())
+        if baseline is None:
+            return JsonResponse({"error": "Baseline indisponible."}, status=503)
+        species_to_remove = set(stored.get("species_to_remove", []))
+        summary = compute_summary_from_baseline_delta(baseline, species_to_remove)
+        results = {
+            "liste_blanks_records": list(_iter_filtered_baseline_rows(baseline, species_to_remove)),
+            "blancks_par_pays": summary.get("blancks_par_pays", {}),
+        }
+    else:
+        results = get_cached_analysis_results(analyse)
     return _section_blanks_by_country_json_from_results(results, request)
 
 
@@ -462,6 +617,15 @@ def _section_summary_json_from_results(results):
 
 def section_summary_json(request, analyse_id):
     analyse = get_object_or_404(Analyse, pk=analyse_id)
+    stored = analyse.results_json or {}
+    if is_compact_analysis_payload(stored):
+        baseline = get_baseline_results(get_target_species_path())
+        if baseline is None:
+            return JsonResponse({"error": "Baseline indisponible."}, status=503)
+        species_to_remove = set(stored.get("species_to_remove", []))
+        summary = compute_summary_from_baseline_delta(baseline, species_to_remove)
+        return _section_summary_json_from_results(summary)
+
     results = get_cached_analysis_results(analyse)
     return _section_summary_json_from_results(results)
 
